@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <!-- Layout -->
+    <color name="layout_main_top_holder_background">#8C1132</color>
+    <color name="layout_main_bottom_holder_background">#730E20</color>
+    <color name="layout_main_step_number_background">#451C24</color>
+    <!-- Text -->
 </resources>

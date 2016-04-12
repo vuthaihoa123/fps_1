@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main layout -->
+    <integer name="time_duration_translate">500</integer>
+    <integer name="time_duration_alpha">300</integer>
+    <integer name="time_duration_scale">300</integer>
+    <integer name="time_startOffset_alpha">200</integer>
+    <integer name="time_startOffset_scale">200</integer>
+</resources>
