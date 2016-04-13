@@ -9,11 +9,82 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="framgia.vn.photo_sketch.MainActivity"
+    tools:context=".activity.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_word" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/relative_camera"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/layout_main_top_holder_background"
+            android:gravity="center"
+            android:paddingEnd="@dimen/layout_main_top_holder_paddingRight"
+            android:paddingStart="@dimen/layout_main_top_holder_paddingLeft">
+
+            <ImageView
+                android:id="@+id/camera_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/img_desc"
+                android:src="@drawable/ic_device_access_camera" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/camera_icon"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:text="@string/take_photo_camera"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relative_gallery"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/layout_main_bottom_holder_background"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/gallery_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/img_desc"
+                android:src="@drawable/ic_content_picture" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gallery_icon"
+                android:gravity="center"
+                android:padding="@dimen/padding"
+                android:text="@string/choose_from_gallery"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/step_number"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/circle_step">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/or"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size" />
+    </RelativeLayout>
 </RelativeLayout>

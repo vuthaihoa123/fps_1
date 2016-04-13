@@ -2,4 +2,11 @@
     <string name="app_name">Photo_Sketch</string>
     <string name="action_settings">Settings</string>
     <string name="hello_word">Hello World!</string>
+    <!-- Layout Content Main -->
+    <string name="take_photo_camera">Take photo</string>
+    <string name="choose_from_gallery">Choose image</string>
+    <string name="or">or</string>
+    <string name="img_desc">Images</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+    <string name="not_found_photo">Is not found photo</string>
 </resources>

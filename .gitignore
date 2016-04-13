@@ -16,7 +16,6 @@ gradle.properties
 proguard-rules.pro
 gradlew
 gradlew.bat
-settings.gradle
 */build/
 gradle/
 
