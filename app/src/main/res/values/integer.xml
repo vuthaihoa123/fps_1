@@ -6,4 +6,26 @@
     <integer name="time_duration_scale">300</integer>
     <integer name="time_startOffset_alpha">200</integer>
     <integer name="time_startOffset_scale">200</integer>
+    <!--Photo layout -->
+    <integer name="list_effect_time_duration_translate">200</integer>
+    <integer name="save_undo_time_duration_translate">300</integer>
+    <!-- SeekBar -->
+    <integer name="seekBar_max_hue">400</integer>
+    <integer name="seekBar_max_bright">400</integer>
+    <integer name="seekBar_max_contrast">400</integer>
+    <integer name="seekBar_max_highlight">400</integer>
+    <integer name="seekBar_max_invert">400</integer>
+    <integer name="seekBar_max_sketch">400</integer>
+    <integer name="seekBar_max_vignette">400</integer>
+    <integer name="seekBar_max_sepia">400</integer>
+    <integer name="seekBar_max_grey_scale">400</integer>
+    <integer name="seekBar_progress_hue">0</integer>
+    <integer name="seekBar_progress_bright">0</integer>
+    <integer name="seekBar_progress_contrast">0</integer>
+    <integer name="seekBar_progress_highlight">0</integer>
+    <integer name="seekBar_progress_invert">0</integer>
+    <integer name="seekBar_progress_sketch">0</integer>
+    <integer name="seekBar_progress_vignette">0</integer>
+    <integer name="seekBar_progress_sepia">0</integer>
+    <integer name="seekBar_progress_grey_scale">0</integer>
 </resources>

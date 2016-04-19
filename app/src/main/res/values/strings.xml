@@ -9,4 +9,15 @@
     <string name="img_desc">Images</string>
     <string name="title_activity_photo">PhotoActivity</string>
     <string name="not_found_photo">Is not found photo</string>
+
+    <string name="hue">Hue</string>
+    <string name="bright">Brightness</string>
+    <string name="contrast">Contrast</string>
+    <string name="highlight">High light</string>
+    <string name="invert">Invert</string>
+    <string name="vignette">Vignette</string>
+    <string name="sketch">Sketch</string>
+    <string name="sepia">Sepia</string>
+    <string name="grey_scale">Grey Scale</string>
+    <string name="point"> : </string>
 </resources>
