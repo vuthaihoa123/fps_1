@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout_filter_bright"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:background="@color/background_filter"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_filter"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView_bright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/filter_text_view_margin_bottom"
+            android:text="@string/bright"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_filter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/filter_text_view_margin_bottom"
+            android:text="@string/point"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_filter" />
+
+        <TextView
+            android:id="@+id/textView_value_bright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_filter"/>
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar_bright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="@integer/seekBar_max_bright"
+        android:mirrorForRtl="false"
+        android:progress="@integer/seekBar_progress_bright"
+        tools:ignore="UnusedAttribute" />
+</LinearLayout>

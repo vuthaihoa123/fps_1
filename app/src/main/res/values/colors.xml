@@ -9,4 +9,11 @@
     <color name="layout_main_bottom_holder_background">#730E20</color>
     <color name="layout_main_step_number_background">#451C24</color>
     <!-- Text -->
+    <color name="layout_list_filter_text_color">@android:color/white</color>
+    <!-- Filter -->
+    <color name="background_filter">#99000000</color>
+    <color name="background_list_filter">#99000000</color>
+    <!-- Save undo -->
+    <color name="background_save">#BB000000</color>
+    <color name="background_undo">#BB000000</color>
 </resources>
