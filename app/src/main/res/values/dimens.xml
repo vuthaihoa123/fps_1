@@ -11,7 +11,7 @@
     <dimen name="layout_main_step_number_height">70dp</dimen>
     <dimen name="layout_filter_horizontal_relative_margin_right">8dp</dimen>
     <!-- Text Size -->
-    <dimen name="text_size">20sp</dimen>
+    <difmen name="text_size">20sp</difmen>
     <dimen name="text_size_filter">18sp</dimen>
     <dimen name="text_size_filters">16sp</dimen>
     <!-- Filter -->
