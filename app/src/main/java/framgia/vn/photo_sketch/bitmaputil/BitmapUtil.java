@@ -22,10 +22,8 @@ import android.util.TypedValue;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectStreamException;
 
 /**
  * Created by nghicv on 14/04/2016.
@@ -40,9 +38,9 @@ public class BitmapUtil {
     public static final String FILE_NAME = "image_";
     public static final String IMAGE_TYPE = ".png";
 
-    public static int dpToPx(float dp, Resources res){
-        float px= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
-        return (int)px;
+    public static int dpToPx(float dp, Resources res) {
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
+        return (int) px;
     }
 
     public static Bitmap resize(String imageUrl) throws Exception {
@@ -64,9 +62,9 @@ public class BitmapUtil {
         return BitmapUtil.modifyOrientation(BitmapFactory.decodeFile(imageUrl, bitmapOptions), imageUrl);
     }
 
-    public static Bitmap reSizeImage(Bitmap bitmap, float maxSize, boolean filter ){
-        if(maxSize > bitmap.getWidth() && maxSize > bitmap.getHeight()) {
-            float ratio = Math.min((float)maxSize/bitmap.getWidth(), (float)maxSize/bitmap.getHeight());
+    public static Bitmap reSizeImage(Bitmap bitmap, float maxSize, boolean filter) {
+        if (maxSize > bitmap.getWidth() && maxSize > bitmap.getHeight()) {
+            float ratio = Math.min((float) maxSize / bitmap.getWidth(), (float) maxSize / bitmap.getHeight());
             int width = Math.round(ratio * bitmap.getWidth());
             int height = Math.round(ratio * bitmap.getHeight());
             return Bitmap.createScaledBitmap(bitmap, width, height, filter);
@@ -74,12 +72,12 @@ public class BitmapUtil {
         return bitmap;
     }
 
-    public static Bitmap createThumbnailBitmap(Context context, Bitmap bitmap, int width, int height){
+    public static Bitmap createThumbnailBitmap(Context context, Bitmap bitmap, int width, int height) {
         return ThumbnailUtils.extractThumbnail(bitmap, dpToPx(width, context.getResources()),
                 dpToPx(height, context.getResources()));
     }
 
-    public static Bitmap highlight(Bitmap bitmap, int value){
+    public static Bitmap highlight(Bitmap bitmap, int value) {
         Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth() + value, bitmap.getHeight() + value,
                 Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(outBitmap);
@@ -124,14 +122,14 @@ public class BitmapUtil {
         int pixel;
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
                 pixel = bitmap.getPixel(x, y);
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
                 green = Color.green(pixel);
                 blue = Color.blue(pixel);
-                red = green = blue = (int)(GS_RED * red + GS_GREEN * green + GS_BLUE * blue);
+                red = green = blue = (int) (GS_RED * red + GS_GREEN * green + GS_BLUE * blue);
                 bmOut.setPixel(x, y, Color.argb(alpha, red, green, blue));
             }
         }
@@ -150,22 +148,31 @@ public class BitmapUtil {
         Bitmap bmOut = Bitmap.createBitmap(width, height, bitmap.getConfig());
         int alpha, red, green, blue;
         int pixel;
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
                 pixel = bitmap.getPixel(x, y);
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
                 green = Color.green(pixel);
                 blue = Color.blue(pixel);
                 red += value;
-                if(red > 255) { red = 255; }
-                else if(red < 0) { red = 0; }
+                if (red > 255) {
+                    red = 255;
+                } else if (red < 0) {
+                    red = 0;
+                }
                 green += value;
-                if(green > 255) { green = 255; }
-                else if(green < 0) { green = 0; }
+                if (green > 255) {
+                    green = 255;
+                } else if (green < 0) {
+                    green = 0;
+                }
                 blue += value;
-                if(blue > 255) { blue = 255; }
-                else if(blue < 0) { blue = 0; }
+                if (blue > 255) {
+                    blue = 255;
+                } else if (blue < 0) {
+                    blue = 0;
+                }
                 bmOut.setPixel(x, y, Color.argb(alpha, red, green, blue));
             }
         }
@@ -179,12 +186,12 @@ public class BitmapUtil {
         float[] HSV = new float[3];
         source.getPixels(pixels, 0, width, 0, 0, width, height);
         int index = 0;
-        for(int y = 0; y < height; ++y) {
-            for(int x = 0; x < width; ++x) {
+        for (int y = 0; y < height; ++y) {
+            for (int x = 0; x < width; ++x) {
                 index = y * width + x;
                 Color.colorToHSV(pixels[index], HSV);
                 HSV[0] *= level;
-                HSV[0] = (float) Math.max(0.0, Math.min(HSV[0],HUE_VALUE));
+                HSV[0] = (float) Math.max(0.0, Math.min(HSV[0], HUE_VALUE));
                 pixels[index] |= Color.HSVToColor(HSV);
             }
         }
@@ -205,13 +212,13 @@ public class BitmapUtil {
         int[] arrRed = new int[256];
         int[] arrGreen = new int[256];
         int[] arrBlue = new int[256];
-        for(int i = 0; i < 256; i++){
-            arrRed[i] = (int)(i * GS_RED);
-            arrBlue[i] = (int)(i * GS_BLUE);
-            arrGreen[i] = (int)(i * GS_GREEN);
+        for (int i = 0; i < 256; i++) {
+            arrRed[i] = (int) (i * GS_RED);
+            arrBlue[i] = (int) (i * GS_BLUE);
+            arrGreen[i] = (int) (i * GS_GREEN);
         }
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
                 pixel = bitmap.getPixel(x, y);
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
@@ -219,11 +226,17 @@ public class BitmapUtil {
                 blue = Color.blue(pixel);
                 blue = green = red = arrRed[red] + arrBlue[blue] + arrGreen[green];
                 red += SEPIA_RED;
-                if(red > 255) { red = 255; }
+                if (red > 255) {
+                    red = 255;
+                }
                 green += SEPIA_GREEN;
-                if(green > 255) { green = 255; }
+                if (green > 255) {
+                    green = 255;
+                }
                 blue += SEPIA_BLUE;
-                if(blue > 255) { blue = 255; }
+                if (blue > 255) {
+                    blue = 255;
+                }
                 bmOut.setPixel(x, y, Color.argb(alpha, red, green, blue));
             }
         }
@@ -235,9 +248,9 @@ public class BitmapUtil {
     public static Bitmap vignette(Bitmap image) {
         final int width = image.getWidth();
         final int height = image.getHeight();
-        float radius = (float) (width/1.2);
-        int[] colors = new int[] { 0, 0x55000000, 0xff000000 };
-        float[] positions = new float[] { 0.0f, 0.5f, 1.0f };
+        float radius = (float) (width / 1.2);
+        int[] colors = new int[]{0, 0x55000000, 0xff000000};
+        float[] positions = new float[]{0.0f, 0.5f, 1.0f};
         RadialGradient gradient = new RadialGradient(width / 2, height / 2, radius, colors, positions, Shader.TileMode.CLAMP);
         Canvas canvas = new Canvas(image);
         canvas.drawARGB(1, 0, 0, 0);
@@ -262,27 +275,36 @@ public class BitmapUtil {
         int alpha, red, green, blue;
         int sumR, sumG, sumB;
         int[][] pixels = new int[3][3];
-        for(int y = 0; y < height - 2; ++y) {
-            for(int x = 0; x < width - 2; ++x) {
-                for(int i = 0; i < 3; ++i) {
-                    for(int j = 0; j < 3; ++j) {
+        for (int y = 0; y < height - 2; ++y) {
+            for (int x = 0; x < width - 2; ++x) {
+                for (int i = 0; i < 3; ++i) {
+                    for (int j = 0; j < 3; ++j) {
                         pixels[i][j] = bitmap.getPixel(x + i, y + j);
                     }
                 }
                 alpha = Color.alpha(pixels[1][1]);
                 sumR = sumG = sumB = 0;
-                sumR = (type*Color.red(pixels[1][1])) - Color.red(pixels[0][0]) - Color.red(pixels[0][2]) - Color.red(pixels[2][0]) - Color.red(pixels[2][2]);
-                sumG = (type*Color.green(pixels[1][1])) - Color.green(pixels[0][0]) - Color.green(pixels[0][2]) - Color.green(pixels[2][0]) - Color.green(pixels[2][2]);
-                sumB = (type*Color.blue(pixels[1][1])) - Color.blue(pixels[0][0]) - Color.blue(pixels[0][2]) - Color.blue(pixels[2][0]) - Color.blue(pixels[2][2]);
-                red = (int)(sumR  + threshold);
-                if(red < 0) { red = 0; }
-                else if(red > 255) { red = 255; }
-                green = (int)(sumG  + threshold);
-                if(green < 0) { green = 0; }
-                else if(green > 255) { green = 255; }
-                blue = (int)(sumB  + threshold);
-                if(blue < 0) { blue = 0; }
-                else if(blue > 255) { blue = 255; }
+                sumR = (type * Color.red(pixels[1][1])) - Color.red(pixels[0][0]) - Color.red(pixels[0][2]) - Color.red(pixels[2][0]) - Color.red(pixels[2][2]);
+                sumG = (type * Color.green(pixels[1][1])) - Color.green(pixels[0][0]) - Color.green(pixels[0][2]) - Color.green(pixels[2][0]) - Color.green(pixels[2][2]);
+                sumB = (type * Color.blue(pixels[1][1])) - Color.blue(pixels[0][0]) - Color.blue(pixels[0][2]) - Color.blue(pixels[2][0]) - Color.blue(pixels[2][2]);
+                red = (int) (sumR + threshold);
+                if (red < 0) {
+                    red = 0;
+                } else if (red > 255) {
+                    red = 255;
+                }
+                green = (int) (sumG + threshold);
+                if (green < 0) {
+                    green = 0;
+                } else if (green > 255) {
+                    green = 255;
+                }
+                blue = (int) (sumB + threshold);
+                if (blue < 0) {
+                    blue = 0;
+                } else if (blue > 255) {
+                    blue = 255;
+                }
                 result.setPixel(x + 1, y + 1, Color.argb(alpha, red, green, blue));
             }
         }
@@ -298,22 +320,31 @@ public class BitmapUtil {
         int alpha, red, green, blue;
         int pixel;
         double contrast = Math.pow((100 + value) / 100, 2);
-        for(int x = 0; x < width; ++x) {
-            for(int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int y = 0; y < height; ++y) {
                 pixel = bitmap.getPixel(x, y);
                 alpha = Color.alpha(pixel);
                 red = Color.red(pixel);
-                red = (int)(((((red / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-                if(red < 0) { red = 0; }
-                else if(red > 255) { red = 255; }
+                red = (int) (((((red / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+                if (red < 0) {
+                    red = 0;
+                } else if (red > 255) {
+                    red = 255;
+                }
                 green = Color.red(pixel);
-                green = (int)(((((green / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-                if(green < 0) { green = 0; }
-                else if(green > 255) { green = 255; }
+                green = (int) (((((green / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+                if (green < 0) {
+                    green = 0;
+                } else if (green > 255) {
+                    green = 255;
+                }
                 blue = Color.red(pixel);
-                blue = (int)(((((blue / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
-                if(blue < 0) { blue = 0; }
-                else if(blue > 255) { blue = 255; }
+                blue = (int) (((((blue / 255.0) - 0.5) * contrast) + 0.5) * 255.0);
+                if (blue < 0) {
+                    blue = 0;
+                } else if (blue > 255) {
+                    blue = 255;
+                }
                 bmOut.setPixel(x, y, Color.argb(alpha, red, green, blue));
             }
         }
@@ -347,21 +378,18 @@ public class BitmapUtil {
         return bm;
     }
 
-    public static void saveBitmapToSdcard(Bitmap bitmap) {
+    public static void saveBitmapToSdcard(Bitmap bitmap) throws IOException {
         String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FOLDER_NAME;
         File dir = new File(dirPath);
         if (!dir.exists())
             dir.mkdir();
         String fileName = FILE_NAME + String.valueOf(System.currentTimeMillis()) + IMAGE_TYPE;
         File file = new File(dir, fileName);
-        try {
-            FileOutputStream fos = new FileOutputStream(file, true);
-            BufferedOutputStream bos = new BufferedOutputStream(fos);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        FileOutputStream fos = new FileOutputStream(file, true);
+        BufferedOutputStream bos = new BufferedOutputStream(fos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        bos.flush();
+        bos.close();
     }
 }

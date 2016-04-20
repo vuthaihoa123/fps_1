@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,7 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import framgia.vn.photo_sketch.R;
+import framgia.vn.photo_sketch.asynctask.ApplyEffectAsync;
 import framgia.vn.photo_sketch.asynctask.DisplayBitmapAsync;
+import framgia.vn.photo_sketch.asynctask.SaveImageAsync;
 import framgia.vn.photo_sketch.constants.ConstEffects;
 import framgia.vn.photo_sketch.library.UriLibrary;
 import framgia.vn.photo_sketch.models.Effect;
@@ -44,14 +48,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     private SeekBar mSeekBarHighlight;
     private TextView mTextViewValueInvert;
     private SeekBar mSeekBarInvert;
-    private TextView mTextViewValueSketch;
-    private SeekBar mSeekBarSketch;
-    private TextView mTextViewValueSepia;
-    private SeekBar mSeekBarSepia;
-    private TextView mTextViewValueGreyScale;
-    private SeekBar mSeekBarGreyScale;
-    private TextView mTextViewValueVignette;
-    private SeekBar mSeekBarVignette;
     /* Layout */
     private LinearLayout mLayoutListEffect;
     private LinearLayout mLinearLayoutSaveUndo;
@@ -70,10 +66,10 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     private Animation mAnimation;
     private Bitmap mBitmap;
     private Uri mImageUri;
-    private String mImageUrl;
     private Effect mEffectSelect;
+    private int mValueEffect;
     private List<Effect> mEffects;
-
+    ApplyEffectAsync mApplyEffectAsync;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +91,27 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         startActivity(intent);
         overridePendingTransition(0, 0);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.share_facebook) {
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getControl() {
@@ -121,18 +138,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         /* Invert */
         mTextViewValueInvert = (TextView) findViewById(R.id.textView_value_invert);
         mSeekBarInvert = (SeekBar) findViewById(R.id.seekBar_invert);
-        /* Sketch */
-        mTextViewValueSketch = (TextView) findViewById(R.id.textView_value_sketch);
-        mSeekBarSketch = (SeekBar) findViewById(R.id.seekBar_sketch);
-        /* Vignette */
-        mTextViewValueVignette = (TextView) findViewById(R.id.textView_value_vignette);
-        mSeekBarVignette = (SeekBar) findViewById(R.id.seekBar_vignette);
-        /* Sepia */
-        mTextViewValueSepia = (TextView) findViewById(R.id.textView_value_sepia);
-        mSeekBarSepia = (SeekBar) findViewById(R.id.seekBar_sepia);
-        /*Grey scale */
-        mTextViewValueGreyScale = (TextView) findViewById(R.id.textView_value_grey_scale);
-        mSeekBarGreyScale = (SeekBar) findViewById(R.id.seekBar_grey_scale);
         /**
          * Layout
          */
@@ -156,9 +161,11 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     }
 
     private void setEvents() {
-        mImageViewCancelEffect.setOnClickListener(new imageEvents());
-        mImageViewSelectEffect.setOnClickListener(new imageEvents());
-        mImageView.setOnClickListener(new imageEvents());
+        mImageViewCancelEffect.setOnClickListener(new ImageEvents());
+        mImageViewSelectEffect.setOnClickListener(new ImageEvents());
+        mImageView.setOnClickListener(new ImageEvents());
+        mImageViewSave.setOnClickListener(new ImageEvents());
+        mImageViewUndo.setOnClickListener(new ImageEvents());
     }
 
     private void loadImage() {
@@ -219,23 +226,27 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     private void displayEditEffect(View view) {
         hideListEffects();
         hideAllEditEffect();
+        mBitmap = getBitmap();
         String effect = view.getTag().toString();
         mEffectSelect = new Effect();
         mEffectSelect.setName(effect);
         switch (effect) {
             case FILTER_HUE:
                 mLinearLayoutFilterHue.setVisibility(View.VISIBLE);
-                mTextViewValueHue.setText(String.valueOf(mSeekBarHue.getProgress()));
+                mSeekBarHue.setProgress(VALUE_PROGRESS_HUE);
+                mTextViewValueHue.setText(String.valueOf(mSeekBarHue.getProgress() - VALUE_PROGRESS_HUE));
                 mSeekBarHue.setOnSeekBarChangeListener(new seekBarEvents());
                 break;
             case FILTER_BRIGHT:
                 mLinearLayoutFilterBright.setVisibility(View.VISIBLE);
-                mTextViewValueBright.setText(String.valueOf(mSeekBarBright.getProgress()));
+                mSeekBarBright.setProgress(VALUE_PROGRESS_BRIGHT);
+                mTextViewValueBright.setText(String.valueOf(mSeekBarBright.getProgress() - VALUE_PROGRESS_BRIGHT));
                 mSeekBarBright.setOnSeekBarChangeListener(new seekBarEvents());
                 break;
             case FILTER_CONTRAST:
                 mLinearLayoutFilterContrast.setVisibility(View.VISIBLE);
-                mTextViewValueContrast.setText(String.valueOf(mSeekBarContrast.getProgress()));
+                mSeekBarContrast.setProgress(VALUE_PROGRESS_CONTRAST);
+                mTextViewValueContrast.setText(String.valueOf(mSeekBarContrast.getProgress() - VALUE_PROGRESS_CONTRAST));
                 mSeekBarContrast.setOnSeekBarChangeListener(new seekBarEvents());
                 break;
             case FILTER_HIGHLIGHT:
@@ -250,27 +261,28 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                 break;
             case FILTER_SKETCH:
                 mLinearLayoutFilterSketch.setVisibility(View.VISIBLE);
-                mTextViewValueSketch.setText(String.valueOf(mSeekBarSketch.getProgress()));
-                mSeekBarSketch.setOnSeekBarChangeListener(new seekBarEvents());
+                applyEffect();
                 break;
             case FILTER_VIGNETTE:
                 mLinearLayoutFilterVignette.setVisibility(View.VISIBLE);
-                mTextViewValueVignette.setText(String.valueOf(mSeekBarVignette.getProgress()));
-                mSeekBarVignette.setOnSeekBarChangeListener(new seekBarEvents());
+                applyEffect();
                 break;
             case FILTER_SEPIA:
                 mLinearLayoutFilterSepia.setVisibility(View.VISIBLE);
-                mTextViewValueSepia.setText(String.valueOf(mSeekBarSepia.getProgress()));
-                mSeekBarSepia.setOnSeekBarChangeListener(new seekBarEvents());
+                applyEffect();
                 break;
             case FILTER_GREY_SCALE:
                 mLinearLayoutFilterGreyScale.setVisibility(View.VISIBLE);
-                mTextViewValueGreyScale.setText(String.valueOf(mSeekBarGreyScale.getProgress()));
-                mSeekBarGreyScale.setOnSeekBarChangeListener(new seekBarEvents());
+                applyEffect();
                 break;
         }
         saveUndoOut();
         cancelEffectIn();
+    }
+
+    private void applyEffect() {
+        mApplyEffectAsync = new ApplyEffectAsync(PhotoActivity.this, mBitmap);
+        mApplyEffectAsync.execute(mEffectSelect);
     }
 
     private void hideAllEditEffect() {
@@ -328,13 +340,16 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             switch (seekBar.getId()) {
                 case R.id.seekBar_hue:
-                    mTextViewValueHue.setText(String.valueOf(mSeekBarHue.getProgress()));
+                    mValueEffect = mSeekBarHue.getProgress() - VALUE_PROGRESS_HUE;
+                    mTextViewValueHue.setText(String.valueOf(mValueEffect));
                     break;
                 case R.id.seekBar_bright:
-                    mTextViewValueBright.setText(String.valueOf(mSeekBarBright.getProgress()));
+                    mValueEffect = mSeekBarBright.getProgress() - VALUE_PROGRESS_BRIGHT;
+                    mTextViewValueBright.setText(String.valueOf(mValueEffect));
                     break;
                 case R.id.seekBar_contrast:
-                    mTextViewValueContrast.setText(String.valueOf(mSeekBarContrast.getProgress()));
+                    mValueEffect = mSeekBarContrast.getProgress() - VALUE_PROGRESS_CONTRAST;
+                    mTextViewValueContrast.setText(String.valueOf(mValueEffect));
                     break;
                 case R.id.seekBar_highlight:
                     mTextViewValueHighlight.setText(String.valueOf(mSeekBarHighlight.getProgress()));
@@ -342,19 +357,8 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                 case R.id.seekBar_invert:
                     mTextViewValueInvert.setText(String.valueOf(mSeekBarInvert.getProgress()));
                     break;
-                case R.id.seekBar_sketch:
-                    mTextViewValueSketch.setText(String.valueOf(mSeekBarSketch.getProgress()));
-                    break;
-                case R.id.seekBar_sepia:
-                    mTextViewValueSepia.setText(String.valueOf(mSeekBarSepia.getProgress()));
-                    break;
-                case R.id.seekBar_vignette:
-                    mTextViewValueVignette.setText(String.valueOf(mSeekBarVignette.getProgress()));
-                    break;
-                case R.id.seekBar_grey_scale:
-                    mTextViewValueGreyScale.setText(String.valueOf(mSeekBarGreyScale.getProgress()));
-                    break;
             }
+            mEffectSelect.setValue(mValueEffect);
         }
 
         @Override
@@ -364,23 +368,34 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-
+            applyEffect();
         }
     }
 
-    private class imageEvents implements View.OnClickListener {
+    private class ImageEvents implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.imageView_cancel_effect:
                     mEffectSelect.setName("");
+                    mEffectSelect.setValue(0);
+                    mImageView.setImageBitmap(mBitmap);
                     cancelEffectOut();
                     displayListEffects();
                     break;
                 case R.id.imageView_select_effect:
                     mEffects.add(mEffectSelect);
+                    mBitmap = getBitmap();
                     cancelEffectOut();
                     displayListEffects();
+                    break;
+                case R.id.imageView_undo:
+                    // TODO Undo Effect
+                    break;
+                case R.id.imageView_save:
+                    mBitmap = getBitmap();
+                    SaveImageAsync saveImageAsync = new SaveImageAsync(PhotoActivity.this);
+                    saveImageAsync.execute(mBitmap);
                     break;
             }
         }

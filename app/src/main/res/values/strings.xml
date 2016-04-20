@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Photo_Sketch</string>
     <string name="action_settings">Settings</string>
+    <string name="share_facebook">Share Facebook</string>
     <string name="hello_word">Hello World!</string>
     <!-- Layout Content Main -->
     <string name="take_photo_camera">Take photo</string>
