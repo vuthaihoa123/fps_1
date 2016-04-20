@@ -17,8 +17,15 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.os.Environment;
 import android.util.TypedValue;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectStreamException;
 
 /**
  * Created by nghicv on 14/04/2016.
@@ -29,6 +36,9 @@ public class BitmapUtil {
     public static final int SEPIA_BLUE = 20;
     public static final int SEPIA_GREEN = 65;
     public static final double HUE_VALUE = 360.0;
+    public static final String FOLDER_NAME = "photo_sketch";
+    public static final String FILE_NAME = "image_";
+    public static final String IMAGE_TYPE = ".png";
 
     public static int dpToPx(float dp, Resources res){
         float px= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
@@ -335,5 +345,23 @@ public class BitmapUtil {
         Bitmap bm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         bitmap.recycle();
         return bm;
+    }
+
+    public static void saveBitmapToSdcard(Bitmap bitmap) {
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FOLDER_NAME;
+        File dir = new File(dirPath);
+        if (!dir.exists())
+            dir.mkdir();
+        String fileName = FILE_NAME + String.valueOf(System.currentTimeMillis()) + IMAGE_TYPE;
+        File file = new File(dir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file, true);
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
