@@ -1,5 +1,8 @@
 package framgia.vn.photo_sketch.models;
 
+/**
+ * Created by hoada921 on 2016-04-21.
+ */
 public class Effect {
     private String mName;
     private int mValue;

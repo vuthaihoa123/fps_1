@@ -19,6 +19,11 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.facebook.CallbackManager;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +82,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         setContentView(R.layout.activity_photo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+//        FacebookSdk.sdkInitialize(getApplicationContext());
         getControl();
         setEvents();
         loadImage();
@@ -108,7 +114,13 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.share_facebook) {
-
+            SharePhoto photo = new SharePhoto.Builder().setBitmap(mBitmap).build();
+            SharePhotoContent content = new SharePhotoContent.Builder()
+                    .addPhoto(photo).build();
+            CallbackManager callbackManager = CallbackManager.Factory.create();
+            ShareDialog shareDialog = new ShareDialog(this);
+            shareDialog.registerCallback(callbackManager, null);
+            shareDialog.show(content);
             return true;
         }
         return super.onOptionsItemSelected(item);

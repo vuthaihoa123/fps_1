@@ -13,6 +13,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 import framgia.vn.photo_sketch.R;
 import framgia.vn.photo_sketch.constants.ConstActivity;
 import framgia.vn.photo_sketch.library.UriLibrary;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements ConstActivity, Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         setSupportActionBar(toolbar);
         getControl();
         setEvents();
