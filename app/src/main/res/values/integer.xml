@@ -10,18 +10,20 @@
     <integer name="list_effect_time_duration_translate">200</integer>
     <integer name="save_undo_time_duration_translate">300</integer>
     <!-- SeekBar -->
-    <integer name="seekBar_max_hue">400</integer>
-    <integer name="seekBar_max_bright">400</integer>
-    <integer name="seekBar_max_contrast">400</integer>
-    <integer name="seekBar_max_highlight">400</integer>
-    <integer name="seekBar_max_invert">400</integer>
-    <integer name="seekBar_max_sketch">400</integer>
-    <integer name="seekBar_max_vignette">400</integer>
-    <integer name="seekBar_max_sepia">400</integer>
-    <integer name="seekBar_max_grey_scale">400</integer>
-    <integer name="seekBar_progress_hue">0</integer>
-    <integer name="seekBar_progress_bright">0</integer>
-    <integer name="seekBar_progress_contrast">0</integer>
+    <!-- Max -->
+    <integer name="seekBar_max_hue">510</integer>
+    <integer name="seekBar_max_bright">200</integer>
+    <integer name="seekBar_max_contrast">200</integer>
+    <integer name="seekBar_max_highlight">255</integer>
+    <integer name="seekBar_max_invert">255</integer>
+    <integer name="seekBar_max_sketch">255</integer>
+    <integer name="seekBar_max_vignette">255</integer>
+    <integer name="seekBar_max_sepia">255</integer>
+    <integer name="seekBar_max_grey_scale">255</integer>
+    <!-- Progress -->
+    <integer name="seekBar_progress_hue">255</integer>
+    <integer name="seekBar_progress_bright">100</integer>
+    <integer name="seekBar_progress_contrast">100</integer>
     <integer name="seekBar_progress_highlight">0</integer>
     <integer name="seekBar_progress_invert">0</integer>
     <integer name="seekBar_progress_sketch">0</integer>
