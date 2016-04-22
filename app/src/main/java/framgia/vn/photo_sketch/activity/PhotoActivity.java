@@ -369,7 +369,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects, Co
 
     private void clearData() {
         mImageView.setImageURI(null);
-        Intent intent = new Intent(PhotoActivity.this, MainActivity.class);
+        Intent intent = new Intent(PhotoActivity.this, ChoosePhotoActivity.class);
         startActivity(intent);
         overridePendingTransition(0, 0);
         mEffectSelect = null;
