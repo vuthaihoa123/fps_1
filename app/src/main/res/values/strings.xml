@@ -23,4 +23,11 @@
     <string name="sepia">Sepia</string>
     <string name="grey_scale">Grey Scale</string>
     <string name="point"> : </string>
+    <!--home screen-->
+    <string name="view_list_photo">View List Photo</string>
+    <string name="edit_photo">Edit Photo</string>
+    <string name="combine_photo">Combine Photo</string>
+    <string name="make_video">Make Video</string>
+    <string name="design_by">Design by</string>
+    <string name="framgia">Framgia</string>
 </resources>

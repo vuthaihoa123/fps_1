@@ -23,7 +23,8 @@ import framgia.vn.photo_sketch.constants.ConstNotification;
 import framgia.vn.photo_sketch.library.DialogUtils;
 import framgia.vn.photo_sketch.library.UriLibrary;
 
-public class MainActivity extends AppCompatActivity implements ConstActivity, ConstNotification, View.OnClickListener {
+
+public class ChoosePhotoActivity extends AppCompatActivity implements ConstActivity, ConstNotification, View.OnClickListener {
     private Animation mAnimation;
     private RelativeLayout mRelativeCamera;
     private RelativeLayout mRelativeGallery;

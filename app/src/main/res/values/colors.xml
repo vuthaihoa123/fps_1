@@ -16,4 +16,6 @@
     <!-- Save undo -->
     <color name="background_save">#BB000000</color>
     <color name="background_undo">#BB000000</color>
+    <color name="background_menu_home_activity">#30000000</color>
+    <color name="background_menu_home_activity_pressed">#60000000</color>
 </resources>
