@@ -1,5 +1,6 @@
 package framgia.vn.photo_sketch.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +29,12 @@ import framgia.vn.photo_sketch.asynctask.ApplyEffectAsync;
 import framgia.vn.photo_sketch.asynctask.DisplayBitmapAsync;
 import framgia.vn.photo_sketch.asynctask.SaveImageAsync;
 import framgia.vn.photo_sketch.constants.ConstEffects;
+import framgia.vn.photo_sketch.constants.ConstNotification;
+import framgia.vn.photo_sketch.library.DialogUtils;
 import framgia.vn.photo_sketch.library.UriLibrary;
 import framgia.vn.photo_sketch.models.Effect;
 
-public class PhotoActivity extends AppCompatActivity implements ConstEffects {
+public class PhotoActivity extends AppCompatActivity implements ConstEffects, ConstNotification {
     /* Declare layout */
     private ImageView mImageView;
     private ImageView mImageViewSave;
@@ -69,6 +73,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     private Effect mEffectSelect;
     private int mValueEffect;
     private List<Effect> mEffects;
+    private List<Bitmap> mBitmaps;
     ApplyEffectAsync mApplyEffectAsync;
 
     @Override
@@ -85,12 +90,10 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        mImageView.setImageURI(null);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        overridePendingTransition(0, 0);
-        finish();
+//        super.onBackPressed();
+        backToChooseImage();
+//        finish();
+
     }
 
     @Override
@@ -158,6 +161,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         Intent intent = getIntent();
         mImageUri = intent.getData();
         mEffects = new ArrayList<Effect>();
+        mBitmaps = new ArrayList<Bitmap>();
     }
 
     private void setEvents() {
@@ -332,6 +336,36 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         mLinearLayoutCancelEffect.startAnimation(mAnimation);
     }
 
+    private void backToChooseImage() {
+        DialogInterface.OnClickListener positiveClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        };
+        DialogInterface.OnClickListener negativeClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clearData();
+                finish();
+            }
+        };
+        DialogUtils.showDialog(this,
+                TITLE_BACK_TO_CHOOSE_IMAGE, MESSAGE_BACK_TO_CHOOSE_IMAGE,
+                MESSAGE_NO, MESSAGE_YES, positiveClickListener, negativeClickListener);
+    }
+
+    private void clearData() {
+        mImageView.setImageURI(null);
+        Intent intent = new Intent(PhotoActivity.this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+        mEffectSelect = null;
+        if (mBitmap != null) mBitmap.recycle();
+        if (mBitmaps.size() > 0) mBitmaps.clear();
+        if (mEffects.size() > 0) mEffects.clear();
+    }
+
     /**
      * Class Events
      */
@@ -385,12 +419,19 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                     break;
                 case R.id.imageView_select_effect:
                     mEffects.add(mEffectSelect);
+                    mBitmaps.add(mBitmap);
                     mBitmap = getBitmap();
                     cancelEffectOut();
                     displayListEffects();
                     break;
                 case R.id.imageView_undo:
-                    // TODO Undo Effect
+                    if (mBitmaps.size() <= 0)
+                        Toast.makeText(PhotoActivity.this, END_EFFECT_UNDO, Toast.LENGTH_SHORT).show();
+                    else {
+                        int indexEnd = mBitmaps.size() - 1;
+                        mImageView.setImageBitmap(mBitmaps.get(indexEnd));
+                        mBitmaps.remove(indexEnd);
+                    }
                     break;
                 case R.id.imageView_save:
                     mBitmap = getBitmap();
