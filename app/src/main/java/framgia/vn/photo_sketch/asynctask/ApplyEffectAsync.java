@@ -10,13 +10,12 @@ import android.widget.Toast;
 import framgia.vn.photo_sketch.R;
 import framgia.vn.photo_sketch.bitmaputil.BitmapUtil;
 import framgia.vn.photo_sketch.constants.ConstEffects;
-import framgia.vn.photo_sketch.constants.ConstNotification;
 import framgia.vn.photo_sketch.models.Effect;
 
 /**
  * Created by FRAMGIA\nguyen.huy.quyet on 19/04/2016.
  */
-public class ApplyEffectAsync extends AsyncTask<Effect, Void, Bitmap> implements ConstEffects, ConstNotification {
+public class ApplyEffectAsync extends AsyncTask<Effect, Void, Bitmap> implements ConstEffects {
     private Activity mContext;
     private ImageView mImageView;
     private Bitmap mBitmap;
@@ -31,7 +30,7 @@ public class ApplyEffectAsync extends AsyncTask<Effect, Void, Bitmap> implements
     @Override
     protected void onPreExecute() {
         mDialog = new ProgressDialog(mContext);
-        mDialog.setMessage(WAIT_APPLY_EFFECT);
+        mDialog.setMessage(mContext.getResources().getString(R.string.progress_message_wait_apply_effect));
         mDialog.setIndeterminate(true);
         mDialog.setCancelable(false);
         mDialog.show();
@@ -83,7 +82,7 @@ public class ApplyEffectAsync extends AsyncTask<Effect, Void, Bitmap> implements
     protected void onPostExecute(Bitmap bitmap) {
         mDialog.dismiss();
         if (bitmap != null) mImageView.setImageBitmap(bitmap);
-        else Toast.makeText(mContext, ERROR_APPLY_EFFECT, Toast.LENGTH_LONG).show();
+        else Toast.makeText(mContext, R.string.toast_error_apply_effect, Toast.LENGTH_LONG).show();
         super.onPostExecute(bitmap);
     }
 }

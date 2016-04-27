@@ -24,10 +24,32 @@
     <string name="grey_scale">Grey Scale</string>
     <string name="point"> : </string>
     <!--home screen-->
-    <string name="view_list_photo">View List Photo</string>
+    <string name="view_list_photo">View List Photo </string>
     <string name="edit_photo">Edit Photo</string>
     <string name="combine_photo">Combine Photo</string>
     <string name="make_video">Make Video</string>
     <string name="design_by">Design by</string>
     <string name="framgia">Framgia</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Message -->
+    <!-- Toast message -->
+    <string name="toast_save_image_success">Save image  success !</string>
+    <string name="toast_save_image_error">Save image  error !</string>
+    <string name="toast_end_effect_undo">Empty effect</string>
+    <string name="toast_save_image_combine_success">Save image SUCCESS ?</string>
+    <string name="toast_error_apply_effect">Error apply effect !</string>
+    <string name="toast_select_6_image">Can\'t select than 6 image </string>
+
+    <!-- Dialog Alert Message -->
+    <string name="dialog_message_yes">Yes</string>
+    <string name="dialog_message_no">No</string>
+    <string name="dialog_title_back_to_choose_image">Exit !</string>
+    <string name="dialog_message_back_to_choose_image">Do you want exit ?</string>
+    <string name="dialog_title_save_image_combine">Save image</string>
+    <string name="dialog_message_save_image_combine">Save image combine ?</string>
+
+    <!-- Dialog Alert Message -->
+    <string name="progress_message_wait_save_image">Saving Image !</string>
+    <string name="progress_message_wait_apply_effect">Please wait apply effect !</string>
 </resources>

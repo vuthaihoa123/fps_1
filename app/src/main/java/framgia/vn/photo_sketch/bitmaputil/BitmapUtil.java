@@ -34,7 +34,7 @@ public class BitmapUtil {
     public static final int SEPIA_BLUE = 20;
     public static final int SEPIA_GREEN = 65;
     public static final double HUE_VALUE = 360.0;
-    public static final String FOLDER_NAME = "photo_sketch";
+    public static final String FOLDER_NAME = "Photo Sketch";
     public static final String FILE_NAME = "image_";
     public static final String IMAGE_TYPE = ".png";
 
