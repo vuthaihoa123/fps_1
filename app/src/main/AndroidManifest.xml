@@ -25,21 +25,25 @@
             android:name=".activity.ChoosePhotoActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".activity.PhotoActivity"
             android:label="@string/title_activity_photo"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activity.HomeActivity"
+        <activity
+            android:name=".activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -48,5 +52,12 @@
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1164278090263632"
             android:exported="true" />
+
+        <activity
+            android:name=".activity.CombinePhotoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
+
 </manifest>

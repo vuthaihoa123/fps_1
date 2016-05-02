@@ -1,6 +1,5 @@
 package framgia.vn.photo_sketch.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,12 +18,10 @@ import com.facebook.appevents.AppEventsLogger;
 
 import framgia.vn.photo_sketch.R;
 import framgia.vn.photo_sketch.constants.ConstActivity;
-import framgia.vn.photo_sketch.constants.ConstNotification;
-import framgia.vn.photo_sketch.library.DialogUtils;
 import framgia.vn.photo_sketch.library.UriLibrary;
 
 
-public class ChoosePhotoActivity extends AppCompatActivity implements ConstActivity, ConstNotification, View.OnClickListener {
+public class ChoosePhotoActivity extends AppCompatActivity implements ConstActivity, View.OnClickListener {
     private Animation mAnimation;
     private RelativeLayout mRelativeCamera;
     private RelativeLayout mRelativeGallery;
@@ -59,20 +56,7 @@ public class ChoosePhotoActivity extends AppCompatActivity implements ConstActiv
 
     @Override
     public void onBackPressed() {
-        DialogInterface.OnClickListener positive = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        };
-        DialogInterface.OnClickListener negative = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        };
-        DialogUtils.showDialog(this, TITLE_BACK_TO_CHOOSE_IMAGE, MESSAGE_BACK_TO_CHOOSE_IMAGE,
-                MESSAGE_YES, MESSAGE_NO, positive, negative);
+        finish();
     }
 
     @Override

@@ -8,4 +8,11 @@ public interface ConstActivity {
     public static final int REQUEST_GALLERY = 1;
 
     public static final String TYPE_INPUT = "image/jpeg";
+    public static final int PICASSO_IMAGE_RESIZE_WIDTH = 240;
+    public static final int PICASSO_IMAGE_RESIZE_HEIGHT = 240;
+    public static final int PICASSO_IMAGE_COMBINE_RESIZE_WIDTH = 280;
+    public static final int PICASSO_IMAGE_COMBINE_RESIZE_HEIGHT = 280;
+    public static final int NUMBER_IMAGE_VERTICAL_IMAGE_COMBINE = 2;
+    public static final int NUMBER_IMAGE_VERTICAL_IMAGE_VIEW = 4;
+    public static final int NUMBER_IMAGE_IN_IMAGE_COMBINE = 6;
 }

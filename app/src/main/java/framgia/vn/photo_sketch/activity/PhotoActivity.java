@@ -34,12 +34,11 @@ import framgia.vn.photo_sketch.asynctask.ApplyEffectAsync;
 import framgia.vn.photo_sketch.asynctask.DisplayBitmapAsync;
 import framgia.vn.photo_sketch.asynctask.SaveImageAsync;
 import framgia.vn.photo_sketch.constants.ConstEffects;
-import framgia.vn.photo_sketch.constants.ConstNotification;
 import framgia.vn.photo_sketch.library.DialogUtils;
 import framgia.vn.photo_sketch.library.UriLibrary;
 import framgia.vn.photo_sketch.models.Effect;
 
-public class PhotoActivity extends AppCompatActivity implements ConstEffects, ConstNotification {
+public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     /* Declare layout */
     private ImageView mImageView;
     private ImageView mImageViewSave;
@@ -363,8 +362,10 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects, Co
             }
         };
         DialogUtils.showDialog(this,
-                TITLE_BACK_TO_CHOOSE_IMAGE, MESSAGE_BACK_TO_CHOOSE_IMAGE,
-                MESSAGE_NO, MESSAGE_YES, positiveClickListener, negativeClickListener);
+                getResources().getString(R.string.dialog_title_back_to_choose_image),
+                getResources().getString(R.string.dialog_message_back_to_choose_image),
+                getResources().getString(R.string.dialog_message_yes),
+                getResources().getString(R.string.dialog_message_no), positiveClickListener, negativeClickListener);
     }
 
     private void clearData() {
@@ -438,7 +439,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects, Co
                     break;
                 case R.id.imageView_undo:
                     if (mBitmaps.size() <= 0)
-                        Toast.makeText(PhotoActivity.this, END_EFFECT_UNDO, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PhotoActivity.this, R.string.toast_end_effect_undo, Toast.LENGTH_SHORT).show();
                     else {
                         int indexEnd = mBitmaps.size() - 1;
                         mImageView.setImageBitmap(mBitmaps.get(indexEnd));
