@@ -8,6 +8,7 @@
     <color name="layout_main_top_holder_background">#8C1132</color>
     <color name="layout_main_bottom_holder_background">#730E20</color>
     <color name="layout_main_step_number_background">#451C24</color>
+    <color name="tablayout_text_color">#FFB300</color>
     <!-- Text -->
     <color name="layout_list_filter_text_color">@android:color/white</color>
     <!-- Filter -->
@@ -18,4 +19,5 @@
     <color name="background_undo">#BB000000</color>
     <color name="background_menu_home_activity">#30000000</color>
     <color name="background_menu_home_activity_pressed">#60000000</color>
+    <color name="background_card_view_list_photo">#cccccc</color>
 </resources>

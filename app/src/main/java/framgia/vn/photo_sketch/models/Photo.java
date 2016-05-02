@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 /**
  * Created by hoada921 on 2016-04-25.
+ * Created by nghicv on 23/04/2016.
  */
 public class Photo {
     private String mUri;
