@@ -31,13 +31,12 @@ import framgia.vn.photo_sketch.library.LoadPhoto;
 import framgia.vn.photo_sketch.models.Photo;
 
 public class CombinePhotoActivity extends AppCompatActivity implements ConstActivity {
-    private RecyclerView mRecyclerViewImage;
-    private RecyclerView mRecyclerViewImageCombine;
-    private List<Photo> mListPhoto;
-    private List<Photo> mListPhotoChoose;
+    private RecyclerView mRecyclerViewImage, mRecyclerViewImageCombine, mRecyclerViewImageCombine1;
+    private List<Photo> mListPhoto, mListPhotoChoose;
     private boolean[] mThumbnailsSelection;
     private AdapterImage mAdapterImage;
     private AdapterImageCombine mAdapterImageCombine;
+    private AdapterImageCombine1 mAdapterImageCombine1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +49,20 @@ public class CombinePhotoActivity extends AppCompatActivity implements ConstActi
     private void setControl() {
         mRecyclerViewImage = (RecyclerView) findViewById(R.id.recyclerView_image);
         mRecyclerViewImage.setLayoutManager(new GridLayoutManager(this, NUMBER_IMAGE_VERTICAL_IMAGE_VIEW));
+        /* RecyclerView Combine */
         mRecyclerViewImageCombine = (RecyclerView) findViewById(R.id.recyclerView_image_combine);
         // First param is number of columns and second param is orientation i.e Vertical or Horizontal
         StaggeredGridLayoutManager gridLayoutManager =
                 new StaggeredGridLayoutManager(NUMBER_IMAGE_VERTICAL_IMAGE_COMBINE, StaggeredGridLayoutManager.VERTICAL);
+        gridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
         // Attach layout manager to the RecyclerView
         mRecyclerViewImageCombine.setLayoutManager(gridLayoutManager);
+        /* RecyclerView 1 Combine */
+        mRecyclerViewImageCombine1 = (RecyclerView) findViewById(R.id.recyclerView_image_combine_1);
+        StaggeredGridLayoutManager gridLayoutManager1 =
+                new StaggeredGridLayoutManager(NUMBER_IMAGE_VERTICAL_IMAGE_COMBINE, StaggeredGridLayoutManager.HORIZONTAL);
+        gridLayoutManager1.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS);
+        mRecyclerViewImageCombine1.setLayoutManager(gridLayoutManager1);
     }
 
     private void setData() {
@@ -63,6 +70,8 @@ public class CombinePhotoActivity extends AppCompatActivity implements ConstActi
         mListPhotoChoose = new ArrayList<Photo>();
         mAdapterImageCombine = new AdapterImageCombine(mListPhotoChoose);
         mRecyclerViewImageCombine.setAdapter(mAdapterImageCombine);
+        mAdapterImageCombine1 = new AdapterImageCombine1(mListPhotoChoose);
+        mRecyclerViewImageCombine1.setAdapter(mAdapterImageCombine1);
         mAdapterImage = new AdapterImage(mListPhoto);
         mRecyclerViewImage.setAdapter(mAdapterImage);
     }
@@ -165,6 +174,7 @@ public class CombinePhotoActivity extends AppCompatActivity implements ConstActi
                         mThumbnailsSelection[position] = !mThumbnailsSelection[position];
                         mListPhotoChoose.add(mListPhotoAdapter.get(position));
                         mAdapterImageCombine.notifyDataSetChanged();
+                        mAdapterImageCombine1.notifyDataSetChanged();
                         mCountChecked++;
                     } else {
                         Toast.makeText(mContext, R.string.toast_select_6_image, Toast.LENGTH_SHORT).show();
@@ -175,6 +185,7 @@ public class CombinePhotoActivity extends AppCompatActivity implements ConstActi
                         if (mListPhotoAdapter.get(position).getUri().equals(photo.getUri())) {
                             mListPhotoChoose.remove(photo);
                             mAdapterImageCombine.notifyDataSetChanged();
+                            mAdapterImageCombine1.notifyDataSetChanged();
                             break;
                         }
                     }
@@ -223,6 +234,58 @@ public class CombinePhotoActivity extends AppCompatActivity implements ConstActi
             public ViewHolder(View itemView) {
                 super(itemView);
                 imageViewImage = (ImageView) itemView.findViewById(R.id.imageView_item_view_image_combine);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    createBitmapForLayout();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public class AdapterImageCombine1 extends RecyclerView.Adapter<AdapterImageCombine1.ViewHolder> implements ConstActivity {
+        private List<Photo> mListPhotoAdapter;
+        private Context mContext;
+
+        public AdapterImageCombine1(List<Photo> list) {
+            mListPhotoAdapter = list;
+        }
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            mContext = parent.getContext();
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View view = inflater.inflate(R.layout.item_view_image_combine_1, null);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            Photo photo = mListPhotoAdapter.get(position);
+            Uri uri = Uri.fromFile(new File(photo.getUri()));
+            Picasso.with(mContext).load(uri)
+                    .resize(PICASSO_IMAGE_COMBINE_RESIZE_WIDTH, PICASSO_IMAGE_COMBINE_RESIZE_HEIGHT)
+                    .centerCrop()
+                    .into(holder.imageViewImage1);
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return mListPhotoAdapter.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            private ImageView imageViewImage1;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                imageViewImage1 = (ImageView) itemView.findViewById(R.id.imageView_item_view_image_combine_1);
                 itemView.setOnClickListener(this);
             }
 

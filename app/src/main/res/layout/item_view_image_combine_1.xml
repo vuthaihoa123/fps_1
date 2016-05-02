@@ -9,7 +9,7 @@
         android:background="@color/com_facebook_button_background_color">
 
         <ImageView
-            android:id="@+id/imageView_item_view_image_combine"
+            android:id="@+id/imageView_item_view_image_combine_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true" />
