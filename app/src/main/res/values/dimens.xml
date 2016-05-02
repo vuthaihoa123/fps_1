@@ -16,6 +16,8 @@
     <dimen name="layout_combine_image_margin_bottom">8dp</dimen>
     <dimen name="layout_combine_image_margin_left">8dp</dimen>
     <dimen name="layout_combine_image_margin_right">8dp</dimen>
+    <dimen name="layout_combine_width">190dp</dimen>
+    <dimen name="layout_combine_1_width">285dp</dimen>
     <!-- Text Size -->
     <dimen name="text_size">20sp</dimen>
     <dimen name="text_size_filter">18sp</dimen>
