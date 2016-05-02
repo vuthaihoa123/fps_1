@@ -32,6 +32,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.linear_list_photo:
                 startActivity(ListImageActivity.class);
                 break;
+            case R.id.linear_make_video:
+                startActivity(MakeVideoActivity.class);
+                break;
         }
     }
 

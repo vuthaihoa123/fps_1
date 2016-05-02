@@ -15,4 +15,7 @@ public interface ConstActivity {
     public static final int NUMBER_IMAGE_VERTICAL_IMAGE_COMBINE = 2;
     public static final int NUMBER_IMAGE_VERTICAL_IMAGE_VIEW = 4;
     public static final int NUMBER_IMAGE_IN_IMAGE_COMBINE = 6;
+    public static final String KEY_SELECTED_IMAGE = "selected image";
+    public static final int IMAGE_MAKE_VIDEO_HEIGHT = 600;
+    public static final int IMAGE_MAKE_VIDEO_WIDTH = 500;
 }

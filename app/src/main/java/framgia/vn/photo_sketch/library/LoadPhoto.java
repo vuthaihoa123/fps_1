@@ -1,6 +1,9 @@
 package framgia.vn.photo_sketch.library;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Environment;
+import android.provider.MediaStore;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,5 +34,22 @@ public class LoadPhoto {
             }
         }
         return mListPhoto;
+    }
+
+    public static List<Photo> loadPhotos(ContentResolver contentResolver) {
+        List<Photo> photos = new ArrayList<>();
+        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
+        final String orderBy = MediaStore.Images.Media._ID;
+        Cursor imagecursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
+        int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
+        for (int i = 0; i < imagecursor.getCount(); i++) {
+            imagecursor.moveToPosition(i);
+            int id = imagecursor.getInt(image_column_index);
+            int dataColumnIndex = imagecursor.getColumnIndex(MediaStore.Images.Media.DATA);
+            Photo photo = new Photo();
+            photo.setUri(imagecursor.getString(dataColumnIndex));
+            photos.add(photo);
+        }
+        return photos;
     }
 }
