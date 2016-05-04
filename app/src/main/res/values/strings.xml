@@ -52,6 +52,7 @@
     <!-- Dialog Alert Message -->
     <string name="progress_message_wait_save_image">Saving Image !</string>
     <string name="progress_message_wait_apply_effect">Please wait apply effect !</string>
-
     <string name="title_activity_list_photo">Photos and Videos</string>
+    <string name="menu_title_make_video">Apply</string>
+    <string name="delete_image">Delete</string>
 </resources>

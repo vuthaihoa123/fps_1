@@ -47,6 +47,10 @@
             </intent-filter>
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name=".activity.MakeVideoActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.GalleryActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider1164278090263632"

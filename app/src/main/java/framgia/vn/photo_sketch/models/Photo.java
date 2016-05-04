@@ -2,13 +2,27 @@ package framgia.vn.photo_sketch.models;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by hoada921 on 2016-04-25.
  * Created by nghicv on 23/04/2016.
  */
-public class Photo {
+public class Photo implements Serializable {
     private String mUri;
     private Bitmap mBitmap;
+    private boolean mSelected = false;
+    public Photo() {
+
+    }
+
+    public boolean isSelected() {
+        return mSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        mSelected = selected;
+    }
 
     public Photo(String uri) {
         mUri = uri;
