@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="framgia.vn.photo_sketch.activity.CombinePhotoActivity">
+    tools:context="framgia.vn.photoSketch.activity.CombinePhotoActivity">
 
     <HorizontalScrollView
         android:layout_width="match_parent"

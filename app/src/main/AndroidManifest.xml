@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="framgia.vn.photo_sketch">
+    package="framgia.vn.photoSketch">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -22,12 +22,12 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".activity.ChoosePhotoActivity"
+            android:name="framgia.vn.photoSketch.activity.ChoosePhotoActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".activity.PhotoActivity"
+            android:name="framgia.vn.photoSketch.activity.PhotoActivity"
             android:label="@string/title_activity_photo"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -38,7 +38,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".activity.HomeActivity"
+            android:name="framgia.vn.photoSketch.activity.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,9 +47,9 @@
             </intent-filter>
         </activity>
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
-        <activity android:name=".activity.MakeVideoActivity"
+        <activity android:name="framgia.vn.photoSketch.activity.MakeVideoActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activity.GalleryActivity"
+        <activity android:name="framgia.vn.photoSketch.activity.GalleryActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <provider
             android:name="com.facebook.FacebookContentProvider"
@@ -57,10 +57,10 @@
             android:exported="true" />
 
         <activity
-            android:name=".activity.CombinePhotoActivity"
+            android:name="framgia.vn.photoSketch.activity.CombinePhotoActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".activity.ListImageActivity"
+        <activity android:name="framgia.vn.photoSketch.activity.ListImageActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
