@@ -32,4 +32,10 @@ public class DialogUtils {
         alert.show();
         return alert;
     }
+
+    public static void showAlert(Context context, int msgId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(msgId);
+        builder.create().show();
+    }
 }

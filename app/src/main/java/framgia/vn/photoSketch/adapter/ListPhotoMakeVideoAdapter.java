@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import framgia.vn.photoSketch.R;
@@ -74,7 +75,7 @@ public class ListPhotoMakeVideoAdapter extends RecyclerView.Adapter<RecyclerView
                 public void onClick(View v) {
                     selectedIndex = position;
                     if (mOnItemSelectListener != null) {
-                       mOnItemSelectListener.onSelected(position);
+                        mOnItemSelectListener.onSelected(position);
                     }
                     notifyDataSetChanged();
                 }

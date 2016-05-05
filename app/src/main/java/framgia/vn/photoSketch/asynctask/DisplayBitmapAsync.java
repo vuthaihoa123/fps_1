@@ -29,7 +29,7 @@ public class DisplayBitmapAsync extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(String... params) {
         try {
-            return BitmapUtil.resize(params[0]);
+            return BitmapUtil.resize(params[0], BitmapUtil.BITMAP_SIZE, BitmapUtil.BITMAP_SIZE);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

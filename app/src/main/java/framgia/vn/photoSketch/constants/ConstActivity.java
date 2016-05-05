@@ -18,4 +18,5 @@ public interface ConstActivity {
     public static final String KEY_SELECTED_IMAGE = "selected image";
     public static final int IMAGE_MAKE_VIDEO_HEIGHT = 600;
     public static final int IMAGE_MAKE_VIDEO_WIDTH = 500;
+    public static final String ROOT_FOLDER = "Photo Sketch";
 }
