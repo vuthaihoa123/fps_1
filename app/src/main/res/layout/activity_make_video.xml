@@ -38,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/image_make_video"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_photo"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

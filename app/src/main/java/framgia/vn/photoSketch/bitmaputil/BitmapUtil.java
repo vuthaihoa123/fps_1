@@ -25,6 +25,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import framgia.vn.photoSketch.constants.ConstActivity;
+
 /**
  * Created by nghicv on 14/04/2016.
  */
@@ -34,7 +36,7 @@ public class BitmapUtil {
     public static final int SEPIA_BLUE = 20;
     public static final int SEPIA_GREEN = 65;
     public static final double HUE_VALUE = 360.0;
-    public static final String FOLDER_NAME = "Photo Sketch";
+    public static final String FOLDER_NAME = "Photo";
     public static final String FILE_NAME = "image_";
     public static final String IMAGE_TYPE = ".png";
 
@@ -43,17 +45,17 @@ public class BitmapUtil {
         return (int) px;
     }
 
-    public static Bitmap resize(String imageUrl) throws Exception {
+    public static Bitmap resize(String imageUrl, int reqWith, int reqHeight) throws IOException {
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inJustDecodeBounds = true;
         BitmapFactory.decodeFile(imageUrl, bitmapOptions);
         int inSampleSize = 1;
         final int outWidth = bitmapOptions.outWidth;
         final int outHeight = bitmapOptions.outHeight;
-        if (outHeight > BITMAP_SIZE || outWidth > BITMAP_SIZE) {
+        if (outHeight > reqHeight || outWidth > reqWith) {
             final int halfWidth = outWidth / 2;
             final int halfHeight = outHeight / 2;
-            while ((halfHeight / inSampleSize) > BITMAP_SIZE && (halfWidth / inSampleSize) > BITMAP_SIZE) {
+            while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWith) {
                 inSampleSize *= 2;
             }
         }
@@ -375,7 +377,7 @@ public class BitmapUtil {
     }
 
     public static void saveBitmapToSdcard(Bitmap bitmap) throws IOException {
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + FOLDER_NAME;
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ConstActivity.ROOT_FOLDER + "/" + FOLDER_NAME;
         File dir = new File(dirPath);
         if (!dir.exists())
             dir.mkdir();

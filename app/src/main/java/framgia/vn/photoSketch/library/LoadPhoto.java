@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import framgia.vn.photoSketch.constants.ConstActivity;
 import framgia.vn.photoSketch.models.Photo;
 
 /**
@@ -25,7 +26,7 @@ public class LoadPhoto {
 
     public static List<Photo> loadPhotoPaths(String name) {
         mListPhoto = new ArrayList<>();
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + name;
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ConstActivity.ROOT_FOLDER + "/" + name;
         File file = new File(dirPath);
         if (file != null && file.isDirectory()) {
             File[] listFile = file.listFiles();
