@@ -10,6 +10,8 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import java.io.File;
+
 import framgia.vn.photoSketch.constants.ConstUri;
 
 /**
@@ -31,7 +33,7 @@ public class UriLibrary implements ConstUri {
         else if (isExternalStorageDocument(imageUri)) {
             String[] type = typeUri(imageUri);
             if (PRIMARY.equalsIgnoreCase(type[0])) {
-                return Environment.getExternalStorageDirectory() + "/" + type[1];
+                return Environment.getExternalStorageDirectory() + File.separator + type[1];
             }
         }
         // DownloadsProvider
@@ -103,5 +105,4 @@ public class UriLibrary implements ConstUri {
         }
         return null;
     }
-
 }

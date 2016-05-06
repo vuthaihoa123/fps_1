@@ -52,5 +52,20 @@
         <include layout="@layout/filter_grey_scale" />
 
         <include layout="@layout/list_effect" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/list_effect"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_crop_white_24px" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_rotate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_rotate_right_white_24px" />
     </RelativeLayout>
 </RelativeLayout>

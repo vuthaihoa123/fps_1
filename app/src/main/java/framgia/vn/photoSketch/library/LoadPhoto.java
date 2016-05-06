@@ -26,7 +26,9 @@ public class LoadPhoto {
 
     public static List<Photo> loadPhotoPaths(String name) {
         mListPhoto = new ArrayList<>();
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ConstActivity.ROOT_FOLDER + "/" + name;
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + ConstActivity.ROOT_FOLDER +
+                File.separator + name;
         File file = new File(dirPath);
         if (file != null && file.isDirectory()) {
             File[] listFile = file.listFiles();
@@ -39,7 +41,7 @@ public class LoadPhoto {
 
     public static List<Photo> loadPhotos(ContentResolver contentResolver) {
         List<Photo> photos = new ArrayList<>();
-        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
+        final String[] columns = {MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID};
         final String orderBy = MediaStore.Images.Media._ID;
         Cursor imagecursor = contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null, null, orderBy);
         int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);

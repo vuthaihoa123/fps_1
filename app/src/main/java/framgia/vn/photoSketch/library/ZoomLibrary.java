@@ -12,19 +12,23 @@ import android.widget.ImageView;
  */
 public class ZoomLibrary {
     // The 3 states (events) which the user is trying to perform
-    private static final int NONE = 0;
-    private static final int DRAG = 1;
-    private static final int ZOOM = 2;
+    public static final int NONE = 0;
+    public static final int DRAG = 1;
+    public static final int ZOOM = 2;
     @SuppressWarnings("unused")
-    private static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
+    public static final float MIN_ZOOM = 1f, MAX_ZOOM = 1f;
+    public static final int VALUES_OF_MATRIX = 9;
     // These matrices will be used to scale points of the image
     private Matrix mMatrix = new Matrix();
     private Matrix mSavedMatrix = new Matrix();
+    private Matrix mOriginMatrix = new Matrix();
     private int mMode = NONE;
     // tThese PointF objects are used to record the point(s) the user is touching
     private PointF mStartPoint = new PointF();
     private PointF mMidPoint = new PointF();
     private float mOldDist = 1f;
+    private float mOriginWidth = 0, mOriginHeight = 0;
+    private boolean mIsFirstAction = false;
 
     public void zoom(ImageView ivTarget) {
 //        ivTarget.setImageURI(Uri.fromFile(new File("/storage/emulated/0/DCIM/Camera/IMG_20160211_150305.jpg")));
@@ -33,7 +37,7 @@ public class ZoomLibrary {
             public boolean onTouch(View v, MotionEvent event) {
                 ImageView view = (ImageView) v;
                 view.setScaleType(ImageView.ScaleType.MATRIX);
-                float scale;
+                float scale = 0;
                 // Handle touch events here...
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN:   // first finger down only
@@ -47,6 +51,7 @@ public class ZoomLibrary {
                         mMode = NONE;
                         break;
                     case MotionEvent.ACTION_POINTER_DOWN: // first and second finger down
+                        float newDist = -1;
                         mOldDist = spacing(event);
                         if (mOldDist > 5f) {
                             mSavedMatrix.set(mMatrix);
@@ -63,22 +68,54 @@ public class ZoomLibrary {
                             mMatrix.postTranslate(pointX, pointY);
                         } else if (mMode == ZOOM) {
                             // pinch zooming
-                            float newDist = spacing(event);
+                            newDist = spacing(event);
                             if (newDist > 5f) {
                                 mMatrix.set(mSavedMatrix);
                                 scale = newDist / mOldDist; // setting the scaling of the
-                                // mMatrix...if scale > 1 means
+                                // mMatrix
                                 // zoom in...if scale < 1 means
-                                // zoom out
+                                // zoom out...if scale > 1 means
                                 mMatrix.postScale(scale, scale, mMidPoint.x, mMidPoint.y);
                             }
                         }
                         break;
                 }
+                if (isResetImage(view)) {
+                    mMatrix.set(mOriginMatrix);
+                    mMatrix.postScale(1 / scale, 1 / scale, mMidPoint.x, mMidPoint.y);
+                }
                 view.setImageMatrix(mMatrix); // display the transformation on screen
                 return true; // indicate event was handled
             }
         });
+    }
+
+    /**
+     * If zooming-in make size of image decreased , then reset image to the origin image
+     *
+     * @param view : image view
+     * @return boolean : true if reset size of image, false if otherwise
+     */
+    private boolean isResetImage(View view) {
+        int imageWidth = view.getWidth();
+        int imageHeight = view.getHeight();
+        float[] values = new float[VALUES_OF_MATRIX];
+        mMatrix.getValues(values);
+//                float globalX = values[Matrix.MTRANS_X];
+//                float globalY = values[Matrix.MTRANS_Y];
+        float width = values[Matrix.MSCALE_X] * imageWidth;
+        float height = values[Matrix.MSCALE_Y] * imageHeight;
+        // Get origin values of matrix
+        if (!mIsFirstAction) {
+            mOriginWidth = width;
+            mOriginHeight = height;
+            mOriginMatrix.set(mMatrix);
+            mIsFirstAction = true;
+        }
+        // Reset image to origin size when zoom in
+        if (width < mOriginWidth || height < mOriginHeight)
+            return true;
+        return false;
     }
 
     /**

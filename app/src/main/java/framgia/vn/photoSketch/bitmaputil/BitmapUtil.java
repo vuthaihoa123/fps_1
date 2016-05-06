@@ -39,6 +39,7 @@ public class BitmapUtil {
     public static final String FOLDER_NAME = "Photo";
     public static final String FILE_NAME = "image_";
     public static final String IMAGE_TYPE = ".png";
+    public static final float ORIENTATION_ROTATE_90 = 90;
 
     public static int dpToPx(float dp, Resources res) {
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, res.getDisplayMetrics());
@@ -377,13 +378,14 @@ public class BitmapUtil {
     }
 
     public static void saveBitmapToSdcard(Bitmap bitmap) throws IOException {
-        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + ConstActivity.ROOT_FOLDER + "/" + FOLDER_NAME;
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
+                File.separator + ConstActivity.ROOT_FOLDER +
+                File.separator + FOLDER_NAME;
         File dir = new File(dirPath);
         if (!dir.exists())
             dir.mkdir();
         String fileName = FILE_NAME + String.valueOf(System.currentTimeMillis()) + IMAGE_TYPE;
         File file = new File(dir, fileName);
-
         FileOutputStream fos = new FileOutputStream(file, true);
         BufferedOutputStream bos = new BufferedOutputStream(fos);
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);

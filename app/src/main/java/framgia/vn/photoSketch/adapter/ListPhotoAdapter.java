@@ -1,6 +1,7 @@
 package framgia.vn.photoSketch.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import framgia.vn.photoSketch.models.Photo;
  */
 public class ListPhotoAdapter extends RecyclerView.Adapter<ListPhotoAdapter.ViewHolder> {
 
+    public static final String IMAGE_MIME_TYPE = "image/*";
     private List<Photo> mListPhoto;
     private Context mContext;
     public static final int IMAGE_SIZE = 196;
@@ -39,12 +41,21 @@ public class ListPhotoAdapter extends RecyclerView.Adapter<ListPhotoAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Photo photo = mListPhoto.get(position);
-        Uri uri = Uri.fromFile(new File(photo.getUri()));
+        final Uri uri = Uri.fromFile(new File(photo.getUri()));
         Picasso.with(mContext)
                 .load(uri)
                 .resize(IMAGE_SIZE, IMAGE_SIZE)
                 .centerCrop()
                 .into(holder.imageViewPhoto);
+        holder.imageViewPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentViewer = new Intent();
+                intentViewer.setAction(Intent.ACTION_VIEW);
+                intentViewer.setDataAndType(uri, IMAGE_MIME_TYPE);
+                mContext.startActivity(intentViewer);
+            }
+        });
     }
 
     @Override
