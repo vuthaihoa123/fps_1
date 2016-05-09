@@ -17,4 +17,35 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="list_effect_relativeLayout">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:onClick">onClickEffectButton</item>
+        <item name="android:layout_marginEnd">
+            @dimen/layout_filter_horizontal_relative_margin_right
+        </item>
+    </style>
+
+    <style name="list_effect_imageView">
+        <item name="android:layout_width">@dimen/list_filter_image_view_width</item>
+        <item name="android:layout_height">@dimen/list_filter_image_view_height</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginBottom">@dimen/list_filter_image_view_margin_bottom</item>
+        <item name="android:contentDescription">@string/img_desc</item>
+    </style>
+
+    <style name="list_effect_textView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">@dimen/list_filter_text_view_padding_bottom</item>
+        <item name="android:paddingEnd">@dimen/list_filter_text_view_padding_end</item>
+        <item name="android:paddingStart">@dimen/list_filter_text_view_padding_start</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/layout_list_filter_text_color</item>
+        <item name="android:textSize">@dimen/text_size_filters</item>
+    </style>
+
 </resources>

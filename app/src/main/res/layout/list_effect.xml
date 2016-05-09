@@ -23,282 +23,129 @@
             android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
+                style="@style/list_effect_relativeLayout"
                 android:tag="@string/hue">
 
                 <ImageView
                     android:id="@+id/image_effect_hue"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
+                    style="@style/list_effect_imageView" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/list_effect_textView"
                     android:layout_below="@+id/image_effect_hue"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/hue"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
+                    android:text="@string/hue" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
+                style="@style/list_effect_relativeLayout"
                 android:tag="@string/bright">
 
                 <ImageView
                     android:id="@+id/image_effect_bright"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
+                    style="@style/list_effect_imageView" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/list_effect_textView"
                     android:layout_below="@+id/image_effect_bright"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/bright"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
+                    android:text="@string/bright" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
+                style="@style/list_effect_relativeLayout"
                 android:tag="@string/contrast">
 
                 <ImageView
                     android:id="@+id/image_effect_contrast"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
+                    style="@style/list_effect_imageView" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/list_effect_textView"
                     android:layout_below="@+id/image_effect_contrast"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/contrast"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
+                    android:text="@string/contrast" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
+                style="@style/list_effect_relativeLayout"
                 android:tag="@string/highlight">
 
                 <ImageView
                     android:id="@+id/image_effect_highlight"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
+                    style="@style/list_effect_imageView" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/list_effect_textView"
                     android:layout_below="@+id/image_effect_highlight"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/highlight"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
+                    android:text="@string/highlight" />
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
-                android:tag="@string/invert">
-
-                <ImageView
-                    android:id="@+id/image_effect_invert"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/image_effect_invert"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/invert"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
-                android:tag="@string/vignette">
-
-                <ImageView
-                    android:id="@+id/image_effect_vignette"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/image_effect_vignette"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/vignette"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
-                android:tag="@string/sketch">
-
-                <ImageView
-                    android:id="@+id/image_effect_sketch"
-                    android:layout_width="@dimen/list_filter_image_view_width"
-                    android:layout_height="@dimen/list_filter_image_view_height"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/image_effect_sketch"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/sketch"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
-                android:tag="@string/sepia">
-
-                <ImageView
-                    android:id="@+id/image_effect_sepia"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/image_effect_sepia"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/sepia"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/layout_filter_horizontal_relative_margin_right"
-                android:gravity="center"
-                android:onClick="onClickEffectButton"
+                style="@style/list_effect_relativeLayout"
                 android:tag="@string/grey_scale">
 
                 <ImageView
                     android:id="@+id/image_effect_grey_scale"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/list_filter_image_view_margin_bottom"
-                    android:contentDescription="@string/img_desc" />
+                    style="@style/list_effect_imageView" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/list_effect_textView"
                     android:layout_below="@+id/image_effect_grey_scale"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/list_filter_text_view_padding_bottom"
-                    android:paddingEnd="@dimen/list_filter_text_view_padding_end"
-                    android:paddingStart="@dimen/list_filter_text_view_padding_start"
-                    android:singleLine="true"
-                    android:text="@string/grey_scale"
-                    android:textColor="@color/layout_list_filter_text_color"
-                    android:textSize="@dimen/text_size_filters" />
+                    android:text="@string/grey_scale" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/list_effect_relativeLayout"
+                android:tag="@string/sepia">
+
+                <ImageView
+                    android:id="@+id/image_effect_sepia"
+                    style="@style/list_effect_imageView" />
+
+                <TextView
+                    style="@style/list_effect_textView"
+                    android:layout_below="@+id/image_effect_sepia"
+                    android:text="@string/sepia" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/list_effect_relativeLayout"
+                android:tag="@string/invert">
+
+                <ImageView
+                    android:id="@+id/image_effect_invert"
+                    style="@style/list_effect_imageView" />
+
+                <TextView
+                    style="@style/list_effect_textView"
+                    android:layout_below="@+id/image_effect_invert"
+                    android:text="@string/invert" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/list_effect_relativeLayout"
+                android:tag="@string/vignette">
+
+                <ImageView
+                    android:id="@+id/image_effect_vignette"
+                    style="@style/list_effect_imageView" />
+
+                <TextView
+                    style="@style/list_effect_textView"
+                    android:layout_below="@+id/image_effect_vignette"
+                    android:text="@string/vignette" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/list_effect_relativeLayout"
+                android:tag="@string/sketch">
+
+                <ImageView
+                    android:id="@+id/image_effect_sketch"
+                    style="@style/list_effect_imageView" />
+
+                <TextView
+                    style="@style/list_effect_textView"
+                    android:layout_below="@+id/image_effect_sketch"
+                    android:text="@string/sketch" />
             </RelativeLayout>
         </LinearLayout>
     </HorizontalScrollView>
