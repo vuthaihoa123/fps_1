@@ -27,7 +27,7 @@ import com.facebook.CallbackManager;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
-import com.soundcloud.android.crop.Crop;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,6 @@ import framgia.vn.photoSketch.R;
 import framgia.vn.photoSketch.asynctask.ApplyEffectAsync;
 import framgia.vn.photoSketch.asynctask.DisplayBitmapAsync;
 import framgia.vn.photoSketch.asynctask.SaveImageAsync;
-import framgia.vn.photoSketch.bitmaputil.BitmapUtil;
 import framgia.vn.photoSketch.constants.ConstEffects;
 import framgia.vn.photoSketch.library.CropLibrary;
 import framgia.vn.photoSketch.library.DialogUtils;
@@ -88,7 +87,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     private List<Effect> mEffects;
     private List<Bitmap> mBitmaps;
     // crop and rotate fab
-    private FloatingActionButton mFabCrop = null, mFabRotate = null;
+    private FloatingActionButton mFabCrop = null;
     private CropLibrary mCropLib = null;
 
     @Override
@@ -192,7 +191,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         mBitmaps = new ArrayList<Bitmap>();
         // Crop and rotate fab:
         mFabCrop = (FloatingActionButton) findViewById(R.id.fab_crop);
-        mFabRotate = (FloatingActionButton) findViewById(R.id.fab_rotate);
     }
 
     private void setEvents() {
@@ -202,7 +200,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         mImageViewSave.setOnClickListener(new ImageEvents());
         mImageViewUndo.setOnClickListener(new ImageEvents());
         mFabCrop.setOnClickListener(new ImageEvents());
-        mFabRotate.setOnClickListener(new ImageEvents());
     }
 
     private void loadImage() {
@@ -230,7 +227,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         mLayoutListEffect.startAnimation(mAnimation);
         saveUndoIn();
         mFabCrop.setVisibility(View.VISIBLE);
-        mFabRotate.setVisibility(View.VISIBLE);
     }
 
     private void hideListEffects() {
@@ -341,7 +337,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         mLinearLayoutFilterSepia.setVisibility(View.GONE);
         mLinearLayoutFilterGreyScale.setVisibility(View.GONE);
         mFabCrop.setVisibility(View.GONE);
-        mFabRotate.setVisibility(View.GONE);
     }
 
     /**
@@ -414,7 +409,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Crop.REQUEST_CROP) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             mCropLib.handleCrop(this, mImageView, resultCode, data);
         }
     }
@@ -499,12 +494,6 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                 case R.id.fab_crop:
                     mBitmap = getBitmap();
                     mCropLib.beginCrop(PhotoActivity.this, mCropLib.bmpToUri(PhotoActivity.this, mBitmap));
-                    break;
-                case R.id.fab_rotate:
-                    mBitmap = getBitmap();
-                    String urlImage = UriLibrary.UriToUrl(getApplicationContext(), mImageUri);
-                    mBitmap = BitmapUtil.rotate(mBitmap, BitmapUtil.ORIENTATION_ROTATE_90);
-                    mImageView.setImageBitmap(mBitmap);
                     break;
             }
         }

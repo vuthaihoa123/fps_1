@@ -9,10 +9,10 @@ import android.provider.MediaStore;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.soundcloud.android.crop.Crop;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -25,7 +25,6 @@ import java.io.IOException;
  */
 
 public class CropLibrary {
-    private static final String sCachedFileName = "cropped";
     public static final String NAME_OF_IMAGE = "Title";
     private int mQualityImage = 100;
 
@@ -37,11 +36,14 @@ public class CropLibrary {
      * @return void
      */
     public void beginCrop(Activity activity, Uri source) {
-        File cachedFile = new File(activity.getCacheDir(), sCachedFileName);
-        Uri destination = Uri.fromFile(cachedFile);
-        Crop.of(source, destination)    // Create a crop Intent builder with source and destination image Uris
-                .asSquare()             // Crop area with fixed 1:1 aspect ratio
-                .start(activity);       // Send the crop Intent from an Activity
+//        File cachedFile = new File(activity.getCacheDir(), sCachedFileName);
+//        Uri destination = Uri.fromFile(cachedFile);
+        CropImage.activity(source)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(activity);
+//        Crop.of(source, destination)    // Create a crop Intent builder with source and destination image Uris
+//                .asSquare()             // Crop area with fixed 1:1 aspect ratio
+//                .start(activity);       // Send the crop Intent from an Activity
     }
 
     public Bitmap uriToBmp(Activity activity, Uri imageUri) throws IOException {
@@ -61,14 +63,17 @@ public class CropLibrary {
      * @param activity
      * @param cropView    : image view that you need to crop
      * @param resultCode: result code returned at onActivityForResult in the activity
-     * @param result:     intent returned at onActivityForResult in the activity
+     * @param data:       intent returned at onActivityForResult in the activity
      * @return void
      */
-    public void handleCrop(Activity activity, ImageView cropView, int resultCode, Intent result) {
+    public void handleCrop(Activity activity, ImageView cropView, int resultCode, Intent data) {
+        CropImage.ActivityResult result = CropImage.getActivityResult(data);
         if (resultCode == Activity.RESULT_OK) {
-            cropView.setImageURI(Crop.getOutput(result));
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(activity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+            Uri resultUri = result.getUri();
+            cropView.setImageURI(resultUri);
+        } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            Exception error = result.getError();
+            Toast.makeText(activity, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
