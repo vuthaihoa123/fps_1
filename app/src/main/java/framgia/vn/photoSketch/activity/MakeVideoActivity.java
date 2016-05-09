@@ -1,11 +1,9 @@
 package framgia.vn.photoSketch.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,18 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +34,18 @@ import framgia.vn.photoSketch.models.Photo;
 /**
  * Created by nghicv on 02/05/2016.
  */
-public class MakeVideoActivity extends AppCompatActivity {
+public class MakeVideoActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar mToolbar;
     private RecyclerView mRecyclerViewListPhoto;
-    private RecyclerView mRecyclerViewTool;
+    private LinearLayout mLinearLayoutTool;
+    private ImageView mImageViewScale;
+    private ImageView mImageViewTranslate;
+    private ImageView mImageViewRotate;
     private ImageView mImageViewPhoto;
     private List<Photo> mPhotos = new ArrayList<>();
+    private int mCurrentIndex = -1;
     private ListPhotoMakeVideoAdapter mAdapter;
+    
     public static final int REQUEST_CODE = 1;
     public static final int MAX_SIZE = 100;
     public static final String VIDEO_TYPE = "video/mp4";
@@ -61,22 +61,33 @@ public class MakeVideoActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mRecyclerViewListPhoto = (RecyclerView) findViewById(R.id.recycler_image);
-        mRecyclerViewTool = (RecyclerView) findViewById(R.id.recycler_tool_edit);
+        mLinearLayoutTool = (LinearLayout) findViewById(R.id.recycler_tool_edit);
         mImageViewPhoto = (ImageView) findViewById(R.id.image_make_video);
+        mImageViewScale = (ImageView) findViewById(R.id.image_scale);
+        mImageViewTranslate = (ImageView) findViewById(R.id.image_translate);
+        mImageViewRotate = (ImageView) findViewById(R.id.image_rotate);
+        mImageViewScale.setOnClickListener(this);
+        mImageViewTranslate.setOnClickListener(this);
+        mImageViewRotate.setOnClickListener(this);
         mAdapter = new ListPhotoMakeVideoAdapter(mPhotos);
         mAdapter.setOnItemSelectListener(new ListPhotoMakeVideoAdapter.OnItemSelectListener() {
             @Override
             public void onSelected(int position) {
                 if(mPhotos.size() != 0) {
+                    mCurrentIndex = position;
                     Photo photo = mPhotos.get(position);
                     displayPhoto(photo);
+                    setBackgroundToolEffect();
                 } else {
                     mImageViewPhoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo));
+                    mCurrentIndex = -1;
+                    hidleToolLayout();
                 }
             }
         });
         mRecyclerViewListPhoto.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewListPhoto.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -105,9 +116,21 @@ public class MakeVideoActivity extends AppCompatActivity {
             if (photos.size() != 0) {
                 mPhotos.addAll(photos);
                 mAdapter.notifyDataSetChanged();
-                displayPhoto(mPhotos.get(0));
+                if(mCurrentIndex == -1)
+                    mCurrentIndex = 0;
+                displayPhoto(mPhotos.get(mCurrentIndex));
+                showToolLayout();
+                setBackgroundToolEffect();
             }
         }
+    }
+
+    private void showToolLayout() {
+        mLinearLayoutTool.setVisibility(View.VISIBLE);
+    }
+
+    private void hidleToolLayout() {
+        mLinearLayoutTool.setVisibility(View.GONE);
     }
 
     private void displayPhoto(Photo photo) {
@@ -126,6 +149,33 @@ public class MakeVideoActivity extends AppCompatActivity {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             DialogUtils.showAlert(MakeVideoActivity.this, R.string.activity_not_found);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mCurrentIndex != -1) {
+            switch (v.getId()) {
+                case R.id.image_scale:
+                    mPhotos.get(mCurrentIndex).setEffect(VideoUtil.EFFECT_SCALE);
+                    mImageViewScale.setImageResource(R.drawable.background_image_scale_pressed);
+                    mImageViewTranslate.setImageResource(R.drawable.background_image_translate);
+                    mImageViewRotate.setImageResource(R.drawable.background_image_rotate);
+                    break;
+                case R.id.image_translate:
+                    mPhotos.get(mCurrentIndex).setEffect(VideoUtil.EFFECT_TRANSLATE);
+                    mImageViewScale.setImageResource(R.drawable.background_image_scale);
+                    mImageViewTranslate.setImageResource(R.drawable.background_image_translate_pressed);
+                    mImageViewRotate.setImageResource(R.drawable.background_image_rotate);
+                    break;
+                case R.id.image_rotate:
+                    mPhotos.get(mCurrentIndex).setEffect(VideoUtil.EFFECT_ROTATE);
+                    mImageViewScale.setImageResource(R.drawable.background_image_scale);
+                    mImageViewTranslate.setImageResource(R.drawable.background_image_translate);
+                    mImageViewRotate.setImageResource(R.drawable.background_image_rotate_pressed);
+                    break;
+
+            }
         }
     }
 
@@ -163,6 +213,28 @@ public class MakeVideoActivity extends AppCompatActivity {
         protected void onPostExecute(String path) {
             mProgressDialog.dismiss();
             playVideo(path);
+        }
+    }
+
+    private void setBackgroundToolEffect(){
+        Photo photo = mPhotos.get(mCurrentIndex);
+        switch (photo.getEffect()) {
+            case VideoUtil.EFFECT_SCALE:
+                mImageViewScale.setImageResource(R.drawable.background_image_scale_pressed);
+                mImageViewTranslate.setImageResource(R.drawable.background_image_translate);
+                mImageViewRotate.setImageResource(R.drawable.background_image_rotate);
+                break;
+            case VideoUtil.EFFECT_TRANSLATE:
+                mImageViewScale.setImageResource(R.drawable.background_image_scale);
+                mImageViewTranslate.setImageResource(R.drawable.background_image_translate_pressed);
+                mImageViewRotate.setImageResource(R.drawable.background_image_rotate);
+                break;
+
+            case VideoUtil.EFFECT_ROTATE:
+                mImageViewScale.setImageResource(R.drawable.background_image_scale);
+                mImageViewTranslate.setImageResource(R.drawable.background_image_translate);
+                mImageViewRotate.setImageResource(R.drawable.background_image_rotate_pressed);
+                break;
         }
     }
 }

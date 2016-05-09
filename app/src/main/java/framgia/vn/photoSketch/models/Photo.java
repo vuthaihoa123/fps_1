@@ -12,8 +12,17 @@ public class Photo implements Serializable {
     private String mUri;
     private Bitmap mBitmap;
     private boolean mSelected = false;
+    private int mEffect = 0;
     public Photo() {
 
+    }
+
+    public void setEffect(int effect) {
+        mEffect = effect;
+    }
+
+    public int getEffect() {
+        return mEffect;
     }
 
     public boolean isSelected() {

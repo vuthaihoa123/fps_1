@@ -60,4 +60,8 @@
     <dimen name="checkbox_size">30dp</dimen>
     <dimen name="checkbox_gallery_margin">5dp</dimen>
     <dimen name="item_image_make_video_padding">2dp</dimen>
+    <dimen name="padding_image_effect">16dp</dimen>
+    <dimen name="image_radius">8dp</dimen>
+    <dimen name="image_view_effect_size">40dp</dimen>
+    <dimen name="image_view_effect_margin_left">16dp</dimen>
 </resources>
