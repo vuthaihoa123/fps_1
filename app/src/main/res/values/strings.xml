@@ -23,6 +23,7 @@
     <string name="sepia">Sepia</string>
     <string name="grey_scale">Grey Scale</string>
     <string name="point"> : </string>
+    <string name="percent"> % </string>
     <!--home screen-->
     <string name="view_list_photo">View List Photo </string>
     <string name="edit_photo">Edit Photo</string>

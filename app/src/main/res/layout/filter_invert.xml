@@ -26,28 +26,28 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_filter" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/filter_text_view_margin_bottom"
-            android:text="@string/point"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_filter" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="@dimen/filter_text_view_margin_bottom"-->
+            <!--android:text="@string/point"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/text_size_filter" />-->
 
-        <TextView
-            android:id="@+id/textView_value_invert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_filter" />
+        <!--<TextView-->
+            <!--android:id="@+id/textView_value_invert"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="@dimen/text_size_filter" />-->
     </LinearLayout>
 
-    <SeekBar
-        android:id="@+id/seekBar_invert"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:max="@integer/seekBar_max_invert"
-        android:mirrorForRtl="false"
-        android:progress="@integer/seekBar_progress_invert"
-        tools:ignore="UnusedAttribute" />
+    <!--<SeekBar-->
+        <!--android:id="@+id/seekBar_invert"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:max="@integer/seekBar_max_invert"-->
+        <!--android:mirrorForRtl="false"-->
+        <!--android:progress="@integer/seekBar_progress_invert"-->
+        <!--tools:ignore="UnusedAttribute" />-->
 </LinearLayout>

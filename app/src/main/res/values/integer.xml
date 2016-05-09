@@ -18,8 +18,8 @@
     <integer name="seekBar_max_invert">255</integer>
     <integer name="seekBar_max_sketch">255</integer>
     <integer name="seekBar_max_vignette">255</integer>
-    <integer name="seekBar_max_sepia">255</integer>
-    <integer name="seekBar_max_grey_scale">255</integer>
+    <integer name="seekBar_max_sepia">100</integer>
+    <integer name="seekBar_max_grey_scale">100</integer>
     <!-- Progress -->
     <integer name="seekBar_progress_hue">255</integer>
     <integer name="seekBar_progress_bright">100</integer>

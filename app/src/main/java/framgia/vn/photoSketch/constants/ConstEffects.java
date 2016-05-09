@@ -23,4 +23,8 @@ public interface ConstEffects {
     public static final int VALUE_PROGRESS_BRIGHT = 100;
     public static final int VALUE_MAX_CONTRAST = 200;
     public static final int VALUE_PROGRESS_CONTRAST = 100;
+    public static final int VALUE_MAX_GREY_SCALE = 100;
+    public static final int VALUE_PROGRESS_GREY_SCALE = 0;
+    public static final int VALUE_MAX_SEPIA = 100;
+    public static final int VALUE_PROGRESS_SEPIA = 0;
 }

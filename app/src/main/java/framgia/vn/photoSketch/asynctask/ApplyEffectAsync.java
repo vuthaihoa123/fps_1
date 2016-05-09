@@ -55,7 +55,7 @@ public class ApplyEffectAsync extends AsyncTask<Effect, Void, Bitmap> implements
                 bitmap = BitmapUtil.highlight(mBitmap, value);
                 break;
             case FILTER_INVERT:
-                bitmap = BitmapUtil.invert(mBitmap, value);
+                bitmap = BitmapUtil.invert(mBitmap);
                 break;
             case FILTER_SKETCH:
                 bitmap = BitmapUtil.sketch(mBitmap);
@@ -64,10 +64,12 @@ public class ApplyEffectAsync extends AsyncTask<Effect, Void, Bitmap> implements
                 bitmap = BitmapUtil.vignette(mBitmap);
                 break;
             case FILTER_SEPIA:
-                bitmap = BitmapUtil.sepia(mBitmap);
+                float valueSepia = (float) value / 100;
+                bitmap = BitmapUtil.sepia(mBitmap, valueSepia);
                 break;
             case FILTER_GREY_SCALE:
-                bitmap = BitmapUtil.greyScale(mBitmap);
+                float valueGreyScale = (float) value / 100;
+                bitmap = BitmapUtil.greyScale(mBitmap, valueGreyScale);
                 break;
         }
         return bitmap;

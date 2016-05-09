@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -60,8 +61,10 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
     private SeekBar mSeekBarContrast;
     private TextView mTextViewValueHighlight;
     private SeekBar mSeekBarHighlight;
-    private TextView mTextViewValueInvert;
-    private SeekBar mSeekBarInvert;
+    private TextView mTextViewValueGreyScale;
+    private SeekBar mSeekBarGreyScale;
+    private TextView mTextViewValueSepia;
+    private SeekBar mSeekBarSepia;
     /* Layout */
     private LinearLayout mLayoutListEffect;
     private LinearLayout mLinearLayoutSaveUndo;
@@ -160,9 +163,12 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         /* High light */
         mTextViewValueHighlight = (TextView) findViewById(R.id.textView_value_highlight);
         mSeekBarHighlight = (SeekBar) findViewById(R.id.seekBar_highlight);
-        /* Invert */
-        mTextViewValueInvert = (TextView) findViewById(R.id.textView_value_invert);
-        mSeekBarInvert = (SeekBar) findViewById(R.id.seekBar_invert);
+        /* Grey Scale */
+        mTextViewValueGreyScale = (TextView) findViewById(R.id.textView_value_grey_scale);
+        mSeekBarGreyScale = (SeekBar) findViewById(R.id.seekBar_grey_scale);
+        /* Sepia */
+        mTextViewValueSepia = (TextView) findViewById(R.id.textView_value_sepia);
+        mSeekBarSepia = (SeekBar) findViewById(R.id.seekBar_sepia);
         /**
          * Layout
          */
@@ -205,6 +211,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         bitmap.execute(urlImage);
     }
 
+    @Nullable
     private Bitmap getBitmap() {
         try {
             return ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
@@ -289,8 +296,7 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                 break;
             case FILTER_INVERT:
                 mLinearLayoutFilterInvert.setVisibility(View.VISIBLE);
-                mTextViewValueInvert.setText(String.valueOf(mSeekBarInvert.getProgress()));
-                mSeekBarInvert.setOnSeekBarChangeListener(new seekBarEvents());
+                applyEffect();
                 break;
             case FILTER_SKETCH:
                 mLinearLayoutFilterSketch.setVisibility(View.VISIBLE);
@@ -300,12 +306,18 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                 mLinearLayoutFilterVignette.setVisibility(View.VISIBLE);
                 applyEffect();
                 break;
-            case FILTER_SEPIA:
-                mLinearLayoutFilterSepia.setVisibility(View.VISIBLE);
-                applyEffect();
-                break;
             case FILTER_GREY_SCALE:
                 mLinearLayoutFilterGreyScale.setVisibility(View.VISIBLE);
+                mSeekBarGreyScale.setProgress(VALUE_PROGRESS_GREY_SCALE);
+                mTextViewValueGreyScale.setText(String.valueOf(mSeekBarGreyScale.getProgress()));
+                mSeekBarGreyScale.setOnSeekBarChangeListener(new seekBarEvents());
+                break;
+            case FILTER_SEPIA:
+                mLinearLayoutFilterSepia.setVisibility(View.VISIBLE);
+                mSeekBarSepia.setProgress(VALUE_PROGRESS_SEPIA);
+                mTextViewValueSepia.setText(String.valueOf(VALUE_MAX_SEPIA - mSeekBarSepia.getProgress()));
+                mSeekBarSepia.setOnSeekBarChangeListener(new seekBarEvents());
+                mEffectSelect.setValue(100);
                 applyEffect();
                 break;
         }
@@ -384,8 +396,8 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
         DialogUtils.showDialog(this,
                 getResources().getString(R.string.dialog_title_back_to_choose_image),
                 getResources().getString(R.string.dialog_message_back_to_choose_image),
-                getResources().getString(R.string.dialog_message_yes),
-                getResources().getString(R.string.dialog_message_no), positiveClickListener, negativeClickListener);
+                getResources().getString(R.string.dialog_message_no),
+                getResources().getString(R.string.dialog_message_yes), positiveClickListener, negativeClickListener);
     }
 
     private void clearData() {
@@ -429,8 +441,13 @@ public class PhotoActivity extends AppCompatActivity implements ConstEffects {
                 case R.id.seekBar_highlight:
                     mTextViewValueHighlight.setText(String.valueOf(mSeekBarHighlight.getProgress()));
                     break;
-                case R.id.seekBar_invert:
-                    mTextViewValueInvert.setText(String.valueOf(mSeekBarInvert.getProgress()));
+                case R.id.seekBar_grey_scale:
+                    mValueEffect = VALUE_MAX_GREY_SCALE - mSeekBarGreyScale.getProgress();
+                    mTextViewValueGreyScale.setText(String.valueOf(mSeekBarGreyScale.getProgress()));
+                    break;
+                case R.id.seekBar_sepia:
+                    mValueEffect = VALUE_MAX_SEPIA - mSeekBarSepia.getProgress();
+                    mTextViewValueSepia.setText(String.valueOf(mSeekBarSepia.getProgress()));
                     break;
             }
             mEffectSelect.setValue(mValueEffect);
