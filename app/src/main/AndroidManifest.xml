@@ -46,7 +46,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
         <activity android:name="framgia.vn.photoSketch.activity.MakeVideoActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="framgia.vn.photoSketch.activity.GalleryActivity"

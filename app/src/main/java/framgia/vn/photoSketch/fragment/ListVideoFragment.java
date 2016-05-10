@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import framgia.vn.photoSketch.R;
@@ -26,7 +27,7 @@ public class ListVideoFragment extends Fragment {
     public final int NUM_COLUMN = 2;
     private RecyclerView mRecyclerListVideo;
     private View mView;
-    private List<Video> mListVideo;
+    private List<Video> mListVideo = new ArrayList<>();
     private ListVideoAdapter mListVideoAdapter;
 
     @Nullable
@@ -41,13 +42,13 @@ public class ListVideoFragment extends Fragment {
         loadPhotoPaths();
         mRecyclerListVideo = (RecyclerView) mView.findViewById(R.id.recycler_list_video);
         mRecyclerListVideo.setLayoutManager(new GridLayoutManager(getActivity(), NUM_COLUMN));
-        mListVideoAdapter = new ListVideoAdapter(mListVideo);
+        mListVideoAdapter = new ListVideoAdapter(getActivity(), mListVideo);
         mRecyclerListVideo.setAdapter(mListVideoAdapter);
         mListVideoAdapter.notifyDataSetChanged();
     }
 
     private void loadPhotoPaths() {
-        String dirPath = ConstActivity.ROOT_FOLDER + File.separator + VideoUtil.FOLDER_NAME;
-        mListVideo = LoadVideo.loadVideoPaths(dirPath);
+        String pathVideoFolder = ConstActivity.ROOT_FOLDER + File.separator + VideoUtil.FOLDER_NAME;
+        mListVideo = LoadVideo.loadVideoPaths(pathVideoFolder);
     }
 }
