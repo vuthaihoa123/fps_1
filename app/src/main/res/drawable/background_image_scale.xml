@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item>
+                <shape android:shape="rectangle">
+                    <padding android:bottom="@dimen/padding_image_effect"
+                        android:left="@dimen/padding_image_effect"
+                        android:right="@dimen/padding_image_effect"
+                        android:top="@dimen/padding_image_effect"/>
+                    <corners android:radius="@dimen/image_radius"/>
+                </shape>
+            </item>
+        </selector>
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_arrow_expand_white_48dp">
+        </bitmap>
+    </item>
+</layer-list>

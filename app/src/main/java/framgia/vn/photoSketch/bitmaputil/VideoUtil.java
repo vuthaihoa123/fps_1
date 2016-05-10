@@ -38,6 +38,11 @@ public class VideoUtil {
     private static final int VIDEO_HEIGHT = 720;
     public static final String FOLDER_NAME = "video";
     public static final String FILE_NAME = "video_";
+    public static final int EFFECT_SCALE = 0;
+    public static final int EFFECT_TRANSLATE = 1;
+    public static final int EFFECT_ROTATE = 2;
+    public static final float SCALE = 0.5f;
+    public static final int BITMAP_SIZE = 960;
     private MediaCodec.BufferInfo mBufferInfo;
     private MediaCodec mEncoder;
     private MediaMuxer mMuxer;
@@ -55,6 +60,7 @@ public class VideoUtil {
     private int mOldIndex = -1;
     private boolean mInitFinish = false;
     private OnUpdateProgressDialog mOnUpdateProgressDialog;
+    private float mDegrees;
 
     public VideoUtil(List<Photo> listImage, OnUpdateProgressDialog onUpdateProgressDialog) {
         mPhotos = listImage;
@@ -91,8 +97,8 @@ public class VideoUtil {
         mBitmaps = new ArrayList<>();
         createOutputFile();
         for (int i = 0; i < mPhotos.size(); i++) {
-            Bitmap bitmap = BitmapUtil.resize(mPhotos.get(i).getUri(), (int)VIDEO_WIDTH/4, (int)VIDEO_HEIGHT/4);
-            mBitmaps.add(bitmap);
+            Bitmap bitmap = BitmapUtil.resize(mPhotos.get(i).getUri(), (int)VIDEO_WIDTH/3, (int)VIDEO_HEIGHT/3);
+            mBitmaps.add(BitmapUtil.reSizeImage(bitmap, BITMAP_SIZE, false));
         }
         mBufferInfo = new MediaCodec.BufferInfo();
         MediaFormat format = MediaFormat.createVideoFormat(MIME_TYPE, (int) VIDEO_WIDTH, (int) VIDEO_HEIGHT);
@@ -182,26 +188,63 @@ public class VideoUtil {
                 mInitFinish = true;
                 return;
             }
-            dx = 0 - VIDEO_WIDTH;
+            dx = 0 - mBitmaps.get(mCurrentIndex).getWidth();
+            mDegrees = 0;
         }
-        translate(canvas, mBitmaps, mCurrentIndex, mOldIndex, dx, dy, paint, VIDEO_WIDTH, VIDEO_HEIGHT);
-        dx += (int)(VIDEO_WIDTH/FRAMES_PER_SECOND);
+
+        dx += (int)((VIDEO_WIDTH - mBitmaps.get(mCurrentIndex).getWidth())/FRAMES_PER_SECOND);
+        mDegrees = (float) (mDegrees + 2 * 360/FRAMES_PER_SECOND);
+        switch (mPhotos.get(mCurrentIndex).getEffect()){
+            case EFFECT_SCALE:
+                scale(canvas, position);
+                break;
+            case EFFECT_TRANSLATE:
+                translate(canvas);
+                break;
+            case EFFECT_ROTATE:
+                rotate(canvas, position);
+                break;
+        }
         mInputSurface.unlockCanvasAndPost(canvas);
         mInitFinish = true;
     }
 
-    private void translate(Canvas canvas, List<Bitmap> bitmaps, int currentIndex, int
-            oldIndex, float dx, float dy, Paint paint, float screenWidth, float screenHeight) {
+    private void translate(Canvas canvas) {
         canvas.drawARGB(255, 0, 0, 0);
         Matrix matrix = new Matrix();
-
         matrix.setTranslate(dx, dy);
-        if (oldIndex != -1) {
-            Matrix matrix2 = new Matrix();
-            matrix2.setTranslate((dx + VIDEO_WIDTH)/2, dy);
-            canvas.drawBitmap(bitmaps.get(oldIndex), matrix2, paint);
+        canvas.drawBitmap(mBitmaps.get(mCurrentIndex), matrix, paint);
+    }
+
+    private void scale(Canvas canvas, int position){
+        canvas.drawARGB(255, 0, 0, 0);
+        Matrix matrix = new Matrix();
+        float ds =(float)(position % FRAMES_PER_SECOND * 0.01f + SCALE);
+        if(ds <= 1.0f){
+            matrix.preTranslate(VIDEO_WIDTH/2-mBitmaps.get(mCurrentIndex).getWidth()/2, VIDEO_HEIGHT/2 - mBitmaps.get(mCurrentIndex).getHeight()/2);
+            matrix.setScale(ds, ds);
+            matrix.postTranslate(VIDEO_WIDTH/2-mBitmaps.get(mCurrentIndex).getWidth()/2, VIDEO_HEIGHT/2 - mBitmaps.get(mCurrentIndex).getHeight()/2);
+            canvas.drawBitmap(mBitmaps.get(mCurrentIndex), matrix, paint);
+        } else {
+            matrix.preTranslate(VIDEO_WIDTH/2-mBitmaps.get(mCurrentIndex).getWidth()/2, VIDEO_HEIGHT/2 - mBitmaps.get(mCurrentIndex).getHeight()/2);
+            matrix.setScale(1.0f, 1.0f);
+            matrix.postTranslate(VIDEO_WIDTH/2-mBitmaps.get(mCurrentIndex).getWidth()/2, VIDEO_HEIGHT/2 - mBitmaps.get(mCurrentIndex).getHeight()/2);
+            canvas.drawBitmap(mBitmaps.get(mCurrentIndex), matrix, paint);
         }
-        canvas.drawBitmap(bitmaps.get(currentIndex), matrix, paint);
+    }
+
+    private void rotate(Canvas canvas, int position) {
+        canvas.drawARGB(255, 0, 0, 0);
+        if(mDegrees <= 360) {
+            Matrix matrix = new Matrix();
+            matrix.setRotate(mDegrees, mBitmaps.get(mCurrentIndex).getWidth() / 2, mBitmaps.get(mCurrentIndex).getHeight() / 2);
+            matrix.postTranslate(dx, dy);
+            canvas.drawBitmap(mBitmaps.get(mCurrentIndex), matrix, paint);
+        } else {
+            Matrix matrix = new Matrix();
+            matrix.postTranslate(dx, dy);
+            canvas.drawBitmap(mBitmaps.get(mCurrentIndex), matrix, paint);
+        }
     }
 
     public interface OnUpdateProgressDialog{
