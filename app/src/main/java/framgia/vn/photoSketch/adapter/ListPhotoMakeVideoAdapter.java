@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import framgia.vn.photoSketch.R;
@@ -80,33 +81,6 @@ public class ListPhotoMakeVideoAdapter extends RecyclerView.Adapter<RecyclerView
                     notifyDataSetChanged();
                 }
             });
-
-            viewHolder.imageView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    final PopupMenu popupMenu = new PopupMenu(mContext,viewHolder.imageView);
-                    popupMenu.getMenuInflater().inflate(R.menu.delete_image,popupMenu.getMenu());
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            mPhotos.remove(position);
-                            notifyItemRemoved(position);
-                            notifyDataSetChanged();
-                            if(mOnItemSelectListener != null && selectedIndex == position) {
-                               if (position == mPhotos.size() && mPhotos.size() != 0) {
-                                   mOnItemSelectListener.onSelected(position - 1);
-                                   selectedIndex = selectedIndex != 0 ? position - 1 : 0;
-                               } else {
-                                   mOnItemSelectListener.onSelected(position);
-                               }
-                            }
-                            return true;
-                        }
-                    });
-                    popupMenu.show();
-                    return true;
-                }
-            });
         } else {
             ViewHolderItemAddImage viewHolder = (ViewHolderItemAddImage) holder;
             viewHolder.btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +102,56 @@ public class ListPhotoMakeVideoAdapter extends RecyclerView.Adapter<RecyclerView
     public int getItemViewType(int position) {
         return position == mPhotos.size() ? VIEW_TYPE_ITEM_ADD_IMAGE : VIEW_TYPE_ITEM_IMAGE;
     }
+
+    public void onItemDismiss(int position) {
+        if(position >= mPhotos.size()) {
+            notifyDataSetChanged();
+            return;
+        }
+        mPhotos.remove(position);
+        if(mOnItemSelectListener == null) {
+            return;
+        }
+        if (selectedIndex == position) {
+            if (position != mPhotos.size() && mPhotos.size() != 0) {
+                mOnItemSelectListener.onSelected(selectedIndex);
+                notifyDataSetChanged();
+                return;
+            }
+            if (position == mPhotos.size()) {
+                selectedIndex = selectedIndex - 1;
+                mOnItemSelectListener.onSelected(selectedIndex);
+                notifyDataSetChanged();
+                return;
+            }
+            mOnItemSelectListener.onSelected(0);
+        } else if (position < selectedIndex) {
+            selectedIndex = selectedIndex - 1;
+            mOnItemSelectListener.onSelected(selectedIndex);
+        }
+        notifyItemRemoved(position);
+    }
+
+    public void onItemMove(int fromPosition, int toPosition) {
+        if(toPosition == mPhotos.size() || fromPosition == mPhotos.size()) {
+            return;
+        }
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mPhotos, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mPhotos, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        if(mOnItemSelectListener != null && selectedIndex == fromPosition) {
+            selectedIndex = toPosition;
+            mOnItemSelectListener.onSelected(toPosition);
+        }
+    }
+
 
     static class ViewHolderItemImage extends RecyclerView.ViewHolder {
         ImageView imageView;
@@ -152,6 +176,6 @@ public class ListPhotoMakeVideoAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public interface OnItemSelectListener {
-        public void onSelected(int position);
+        void onSelected(int position);
     }
 }
