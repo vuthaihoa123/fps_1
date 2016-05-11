@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import framgia.vn.photoSketch.adapter.ListPhotoMakeVideoAdapter;
 import framgia.vn.photoSketch.bitmaputil.VideoUtil;
 import framgia.vn.photoSketch.constants.ConstActivity;
 import framgia.vn.photoSketch.library.DialogUtils;
+import framgia.vn.photoSketch.library.ItemTouchHelperCallback;
 import framgia.vn.photoSketch.models.Photo;
 
 /**
@@ -87,7 +89,9 @@ public class MakeVideoActivity extends AppCompatActivity implements View.OnClick
         });
         mRecyclerViewListPhoto.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerViewListPhoto.setAdapter(mAdapter);
-
+        ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(mAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(mRecyclerViewListPhoto);
     }
 
     @Override
