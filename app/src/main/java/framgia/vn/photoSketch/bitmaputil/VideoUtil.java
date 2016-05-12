@@ -42,7 +42,7 @@ public class VideoUtil {
     public static final int EFFECT_TRANSLATE = 1;
     public static final int EFFECT_ROTATE = 2;
     public static final float SCALE = 0.5f;
-    public static final int BITMAP_SIZE = 960;
+    public static final int BITMAP_SIZE = 480;
     private MediaCodec.BufferInfo mBufferInfo;
     private MediaCodec mEncoder;
     private MediaMuxer mMuxer;
