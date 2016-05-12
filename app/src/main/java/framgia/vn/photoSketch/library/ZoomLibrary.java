@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-
 /**
  * Created by hoavt on 4/21/2016.
  */
@@ -21,9 +20,8 @@ public class ZoomLibrary {
     // These matrices will be used to scale points of the image
     private Matrix mMatrix = new Matrix();
     private Matrix mSavedMatrix = new Matrix();
-    private Matrix mOriginMatrix = new Matrix();
     private int mMode = NONE;
-    // tThese PointF objects are used to record the point(s) the user is touching
+    // These PointF objects are used to record the point(s) the user is touching
     private PointF mStartPoint = new PointF();
     private PointF mMidPoint = new PointF();
     private float mOldDist = 1f;
@@ -80,11 +78,9 @@ public class ZoomLibrary {
                         }
                         break;
                 }
-                if (isResetImage(view)) {
-                    mMatrix.set(mOriginMatrix);
-                    mMatrix.postScale(1 / scale, 1 / scale, mMidPoint.x, mMidPoint.y);
+                if ((!restrictZoom(view))) {
+                    view.setImageMatrix(mMatrix); // display the transformation on screen
                 }
-                view.setImageMatrix(mMatrix); // display the transformation on screen
                 return true; // indicate event was handled
             }
         });
@@ -96,24 +92,39 @@ public class ZoomLibrary {
      * @param view : image view
      * @return boolean : true if reset size of image, false if otherwise
      */
-    private boolean isResetImage(View view) {
+    private boolean restrictZoom(View view) {
         int imageWidth = view.getWidth();
         int imageHeight = view.getHeight();
         float[] values = new float[VALUES_OF_MATRIX];
         mMatrix.getValues(values);
-//                float globalX = values[Matrix.MTRANS_X];
-//                float globalY = values[Matrix.MTRANS_Y];
         float width = values[Matrix.MSCALE_X] * imageWidth;
         float height = values[Matrix.MSCALE_Y] * imageHeight;
         // Get origin values of matrix
         if (!mIsFirstAction) {
             mOriginWidth = width;
             mOriginHeight = height;
-            mOriginMatrix.set(mMatrix);
             mIsFirstAction = true;
         }
         // Reset image to origin size when zoom in
-        if (width < mOriginWidth || height < mOriginHeight)
+        if (width < (mOriginWidth / 2) || height < (mOriginHeight / 2))
+            return true;
+        return false;
+    }
+
+    private boolean restrictDrag(View view) {
+        int imageWidth = view.getWidth();
+        int imageHeight = view.getHeight();
+        float[] values = new float[VALUES_OF_MATRIX];
+        mMatrix.getValues(values);
+//        float MPERSP_0 = values[Matrix.MPERSP_0];
+//        float MPERSP_1 = values[Matrix.MPERSP_1];
+//        float MPERSP_2 = values[Matrix.MPERSP_2];
+//        float MSKEW_X = values[Matrix.MSKEW_X];
+//        float MSKEW_Y = values[Matrix.MSKEW_Y];
+        float globalX = values[Matrix.MTRANS_X];
+        float globalY = values[Matrix.MTRANS_Y];
+        if (globalX >= imageWidth / 2 || (globalX + imageWidth / 2) <= 0
+                || globalY >= imageHeight / 2 || (globalY + imageHeight / 2) <= 0)
             return true;
         return false;
     }
