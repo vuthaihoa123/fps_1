@@ -20,6 +20,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.TypedValue;
 
@@ -370,7 +371,7 @@ public class BitmapUtil {
         return bm;
     }
 
-    public static void saveBitmapToSdcard(Bitmap bitmap) throws IOException {
+    public static String saveBitmapToSdcard(Bitmap bitmap) throws IOException {
         String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() +
                 File.separator + ConstActivity.ROOT_FOLDER +
                 File.separator + FOLDER_NAME;
@@ -384,5 +385,6 @@ public class BitmapUtil {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
         bos.flush();
         bos.close();
+        return file.getAbsolutePath();
     }
 }

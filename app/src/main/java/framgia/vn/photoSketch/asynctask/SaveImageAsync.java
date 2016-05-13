@@ -2,24 +2,31 @@ package framgia.vn.photoSketch.asynctask;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import java.io.IOException;
 
 import framgia.vn.photoSketch.R;
 import framgia.vn.photoSketch.bitmaputil.BitmapUtil;
+import framgia.vn.photoSketch.constants.AppConstant;
+import framgia.vn.photoSketch.constants.ConstActivity;
+import framgia.vn.photoSketch.models.Photo;
 
 /**
  * Created by FRAMGIA\nguyen.huy.quyet on 20/04/2016.
  */
-public class SaveImageAsync extends AsyncTask<Bitmap, Void, Boolean> {
+public class SaveImageAsync extends AsyncTask<Bitmap, Void, String> {
     private Activity mContext;
     private ProgressDialog mDialog;
+    private Photo mPhoto;
 
-    public SaveImageAsync(Activity context) {
+    public SaveImageAsync(Activity context, Photo photo) {
         this.mContext = context;
+        mPhoto = photo;
     }
 
     @Override
@@ -33,20 +40,32 @@ public class SaveImageAsync extends AsyncTask<Bitmap, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Bitmap... params) {
+    protected String doInBackground(Bitmap... params) {
         try {
-            BitmapUtil.saveBitmapToSdcard(params[0]);
-            return true;
+            return BitmapUtil.saveBitmapToSdcard(params[0]);
         } catch (IOException e) {
-            return false;
+            return null;
         }
     }
 
     @Override
-    protected void onPostExecute(Boolean value) {
-        mDialog.dismiss();
-        if (value) Toast.makeText(mContext, R.string.toast_save_image_success, Toast.LENGTH_LONG).show();
-        else Toast.makeText(mContext, R.string.toast_save_image_error, Toast.LENGTH_LONG).show();
+    protected void onPostExecute(String value) {
         super.onPostExecute(value);
+        mDialog.dismiss();
+        if (value != null) {
+            Toast.makeText(mContext, R.string.toast_save_image_success, Toast.LENGTH_LONG).show();
+            if (mPhoto != null) {
+                mPhoto.setUri(value);
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(AppConstant.PHOTO, mPhoto);
+                intent.putExtras(bundle);
+                mContext.setResult(Activity.RESULT_OK, intent);
+                mContext.finish();
+            }
+            return;
+        }
+        Toast.makeText(mContext, R.string.toast_save_image_error, Toast.LENGTH_LONG).show();
+
     }
 }

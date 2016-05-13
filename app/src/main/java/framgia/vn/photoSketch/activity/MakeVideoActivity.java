@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +29,7 @@ import java.util.List;
 import framgia.vn.photoSketch.R;
 import framgia.vn.photoSketch.adapter.ListPhotoMakeVideoAdapter;
 import framgia.vn.photoSketch.bitmaputil.VideoUtil;
+import framgia.vn.photoSketch.constants.AppConstant;
 import framgia.vn.photoSketch.constants.ConstActivity;
 import framgia.vn.photoSketch.library.DialogUtils;
 import framgia.vn.photoSketch.library.ItemTouchHelperCallback;
@@ -39,16 +41,18 @@ import framgia.vn.photoSketch.models.Photo;
 public class MakeVideoActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar mToolbar;
     private RecyclerView mRecyclerViewListPhoto;
-    private LinearLayout mLinearLayoutTool;
+    private RelativeLayout mRelativeLayoutTool;
     private ImageView mImageViewScale;
     private ImageView mImageViewTranslate;
     private ImageView mImageViewRotate;
     private ImageView mImageViewPhoto;
+    private ImageView mImageEditPhoto;
     private List<Photo> mPhotos = new ArrayList<>();
     private int mCurrentIndex = -1;
     private ListPhotoMakeVideoAdapter mAdapter;
     
-    public static final int REQUEST_CODE = 1;
+    public static final int REQUEST_CODE_SELECT_PHOTO = 1;
+    public static final int REQUEST_CODE_EDIT_PHOTO = 2;
     public static final int MAX_SIZE = 100;
     public static final String VIDEO_TYPE = "video/mp4";
 
@@ -63,14 +67,16 @@ public class MakeVideoActivity extends AppCompatActivity implements View.OnClick
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mRecyclerViewListPhoto = (RecyclerView) findViewById(R.id.recycler_image);
-        mLinearLayoutTool = (LinearLayout) findViewById(R.id.recycler_tool_edit);
+        mRelativeLayoutTool = (RelativeLayout) findViewById(R.id.recycler_tool_edit);
         mImageViewPhoto = (ImageView) findViewById(R.id.image_make_video);
         mImageViewScale = (ImageView) findViewById(R.id.image_scale);
         mImageViewTranslate = (ImageView) findViewById(R.id.image_translate);
         mImageViewRotate = (ImageView) findViewById(R.id.image_rotate);
+        mImageEditPhoto = (ImageView) findViewById(R.id.image_edit_photo);
         mImageViewScale.setOnClickListener(this);
         mImageViewTranslate.setOnClickListener(this);
         mImageViewRotate.setOnClickListener(this);
+        mImageEditPhoto.setOnClickListener(this);
         mAdapter = new ListPhotoMakeVideoAdapter(mPhotos);
         mAdapter.setOnItemSelectListener(new ListPhotoMakeVideoAdapter.OnItemSelectListener() {
             @Override
@@ -83,7 +89,7 @@ public class MakeVideoActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     mImageViewPhoto.setImageDrawable(getResources().getDrawable(R.drawable.ic_photo));
                     mCurrentIndex = -1;
-                    hidleToolLayout();
+                    showToolLayout(false);
                 }
             }
         });
@@ -114,27 +120,34 @@ public class MakeVideoActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK ) {
             Bundle bundle = data.getExtras();
-            List<Photo> photos = (List<Photo>) bundle.getSerializable(ConstActivity.KEY_SELECTED_IMAGE);
-            if (photos.size() != 0) {
-                mPhotos.addAll(photos);
-                mAdapter.notifyDataSetChanged();
-                if(mCurrentIndex == -1)
-                    mCurrentIndex = 0;
-                displayPhoto(mPhotos.get(mCurrentIndex));
-                showToolLayout();
-                setBackgroundToolEffect();
+            switch (requestCode) {
+                case REQUEST_CODE_SELECT_PHOTO:
+                    List<Photo> photos = (List<Photo>) bundle.getSerializable(ConstActivity.KEY_SELECTED_IMAGE);
+                    if (photos.size() != 0) {
+                        mPhotos.addAll(photos);
+                        mAdapter.notifyDataSetChanged();
+                        if (mCurrentIndex == -1)
+                            mCurrentIndex = 0;
+                        displayPhoto(mPhotos.get(mCurrentIndex));
+                        showToolLayout(true);
+                        setBackgroundToolEffect();
+                    }
+                    break;
+                case REQUEST_CODE_EDIT_PHOTO:
+                    Photo photo = (Photo) bundle.getSerializable(AppConstant.PHOTO);
+                    mPhotos.get(mCurrentIndex).setUri(photo.getUri());
+                    mAdapter.notifyDataSetChanged();
+                    displayPhoto(mPhotos.get(mCurrentIndex));
+                    break;
             }
+
         }
     }
 
-    private void showToolLayout() {
-        mLinearLayoutTool.setVisibility(View.VISIBLE);
-    }
-
-    private void hidleToolLayout() {
-        mLinearLayoutTool.setVisibility(View.GONE);
+    private void showToolLayout(boolean show) {
+        mRelativeLayoutTool.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     private void displayPhoto(Photo photo) {
@@ -178,7 +191,14 @@ public class MakeVideoActivity extends AppCompatActivity implements View.OnClick
                     mImageViewTranslate.setImageResource(R.drawable.background_image_translate);
                     mImageViewRotate.setImageResource(R.drawable.background_image_rotate_pressed);
                     break;
-
+                case R.id.image_edit_photo:
+                    Intent intent = new Intent(MakeVideoActivity.this, PhotoActivity.class);
+                    Photo photo = mPhotos.get(mCurrentIndex);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(AppConstant.PHOTO, photo);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_PHOTO);
+                    break;
             }
         }
     }

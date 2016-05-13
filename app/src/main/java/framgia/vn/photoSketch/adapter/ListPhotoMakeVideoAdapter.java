@@ -87,7 +87,7 @@ public class ListPhotoMakeVideoAdapter extends RecyclerView.Adapter<RecyclerView
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, GalleryActivity.class);
-                    ((MakeVideoActivity)mContext).startActivityForResult(intent, MakeVideoActivity.REQUEST_CODE);
+                    ((MakeVideoActivity)mContext).startActivityForResult(intent, MakeVideoActivity.REQUEST_CODE_SELECT_PHOTO);
                 }
             });
         }

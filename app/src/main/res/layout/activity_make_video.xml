@@ -41,7 +41,7 @@
                 android:id="@+id/image_make_video"
                 android:scaleType="fitXY"
                 android:src="@drawable/ic_photo"/>
-            <LinearLayout
+            <RelativeLayout
                 android:orientation="horizontal"
                 android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
@@ -56,19 +56,28 @@
                     android:layout_width="@dimen/image_view_effect_size"
                     android:layout_height="@dimen/image_view_effect_size"
                     android:id="@+id/image_scale"
-                    android:src="@drawable/background_image_scale_pressed"/>
+                    android:src="@drawable/background_image_scale_pressed"
+                    android:layout_alignParentLeft="true"/>
                 <ImageView
                     android:layout_width="@dimen/image_view_effect_size"
                     android:layout_height="@dimen/image_view_effect_size"
                     android:layout_marginLeft="@dimen/image_view_effect_margin_left"
-                    android:id="@+id/image_translate"/>
+                    android:id="@+id/image_translate"
+                    android:layout_toRightOf="@+id/image_scale"/>
                 <ImageView
                     android:layout_width="@dimen/image_view_effect_size"
                     android:layout_height="@dimen/image_view_effect_size"
                     android:layout_marginLeft="@dimen/image_view_effect_margin_left"
                     android:id="@+id/image_rotate"
-                    android:src="@drawable/background_image_rotate"/>
-            </LinearLayout>
+                    android:src="@drawable/background_image_rotate"
+                    android:layout_toRightOf="@+id/image_translate"/>
+                <ImageView
+                    android:layout_width="@dimen/image_view_effect_size"
+                    android:layout_height="@dimen/image_view_effect_size"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/image_edit_photo"
+                    android:src="@drawable/ic_pencil_box_white_48dp"/>
+            </RelativeLayout>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
