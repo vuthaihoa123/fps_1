@@ -20,7 +20,6 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.media.ExifInterface;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.TypedValue;
 
@@ -215,7 +214,7 @@ public class BitmapUtil {
      * @param scale  0 ->1
      * @return
      */
-    public static Bitmap sepia(Bitmap bitmap, float scale ) {
+    public static Bitmap sepia(Bitmap bitmap, float scale) {
         int width, height;
         height = bitmap.getHeight();
         width = bitmap.getWidth();
@@ -239,7 +238,7 @@ public class BitmapUtil {
         int[] colors = new int[]{0, 0x55000000, 0xff000000};
         float[] positions = new float[]{0.0f, 0.5f, 2f};
         RadialGradient gradient = new RadialGradient(width / 2, height / 2, radius, colors, positions, Shader.TileMode.CLAMP);
-        Bitmap bitmap = Bitmap.createBitmap(width,height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         canvas.drawARGB(1, 0, 0, 0);
         final Paint paint = new Paint();
@@ -377,7 +376,8 @@ public class BitmapUtil {
                 File.separator + FOLDER_NAME;
         File dir = new File(dirPath);
         if (!dir.exists())
-            dir.mkdir();
+            dir.mkdirs();
+
         String fileName = FILE_NAME + String.valueOf(System.currentTimeMillis()) + IMAGE_TYPE;
         File file = new File(dir, fileName);
         FileOutputStream fos = new FileOutputStream(file, true);

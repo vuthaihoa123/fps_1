@@ -13,7 +13,6 @@ import java.io.IOException;
 import framgia.vn.photoSketch.R;
 import framgia.vn.photoSketch.bitmaputil.BitmapUtil;
 import framgia.vn.photoSketch.constants.AppConstant;
-import framgia.vn.photoSketch.constants.ConstActivity;
 import framgia.vn.photoSketch.models.Photo;
 
 /**
@@ -66,6 +65,5 @@ public class SaveImageAsync extends AsyncTask<Bitmap, Void, String> {
             return;
         }
         Toast.makeText(mContext, R.string.toast_save_image_error, Toast.LENGTH_LONG).show();
-
     }
 }
